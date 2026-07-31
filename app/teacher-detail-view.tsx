@@ -156,32 +156,26 @@ export default function TeacherDetailView({ teacher, locale }: { teacher: Teache
             <section className="marketplace-section marketplace-review-form-section">
               <div className="marketplace-section-heading">
                 <span><Star /></span>
-                <div><small>{ar ? "تجربة فعلية" : "Real experience"}</small><h2>{ar ? "أرسل تقييماً حقيقياً" : "Submit a genuine review"}</h2></div>
+                <div><small>{ar ? "شارك تجربتك" : "Share your experience"}</small><h2>{ar ? "أرسل تقييمك" : "Submit a review"}</h2></div>
               </div>
               <form className="review-form marketplace-review-form" action="/api/review.php" method="post">
                 <input type="hidden" name="teacher" value={`${teacher.name.en} (${teacher.slug})`} />
                 <input type="hidden" name="locale" value={locale} />
                 <div className="honeypot" aria-hidden="true"><label htmlFor={`review-website-${teacher.slug}-${locale}`}>Website</label><input id={`review-website-${teacher.slug}-${locale}`} name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
-                <div className="field-row">
-                  <label>{ar ? "الاسم" : "Your name"}<input name="name" type="text" placeholder={ar ? "الاسم الكامل" : "Full name"} autoComplete="name" required /></label>
-                  <label>{ar ? "البريد الإلكتروني" : "Email address"}<input name="email" type="email" placeholder="you@example.com" autoComplete="email" required dir="ltr" /></label>
-                </div>
-                <div className="field-row">
-                  <label>{ar ? "التقييم" : "Rating"}
-                    <select name="rating" defaultValue="" required>
-                      <option value="" disabled>{ar ? "اختر من ٥ نجوم" : "Choose a star rating"}</option>
-                      <option value="5">★★★★★ — {ar ? "ممتاز" : "Excellent"}</option><option value="4">★★★★ — {ar ? "جيد جداً" : "Very good"}</option><option value="3">★★★ — {ar ? "جيد" : "Good"}</option><option value="2">★★ — {ar ? "مقبول" : "Fair"}</option><option value="1">★ — {ar ? "يحتاج إلى تحسين" : "Needs improvement"}</option>
-                    </select>
-                  </label>
-                  <label>{ar ? "علاقتك بالطالب" : "Your relationship"}
-                    <select name="relationship" defaultValue="" required>
-                      <option value="" disabled>{ar ? "اختر إجابة" : "Choose one"}</option><option>{ar ? "أنا الطالب" : "I am the learner"}</option><option>{ar ? "ولي أمر" : "Parent or guardian"}</option><option>{ar ? "فرد من الأسرة" : "Family member"}</option>
-                    </select>
-                  </label>
-                </div>
+                <label>{ar ? "الاسم" : "Your name"}<input name="name" type="text" placeholder={ar ? "الاسم الكامل" : "Full name"} autoComplete="name" maxLength={100} required /></label>
+                <fieldset className="star-rating-field">
+                  <legend>{ar ? "التقييم" : "Your rating"}</legend>
+                  <div className="clickable-star-rating">
+                    {[5, 4, 3, 2, 1].map((rating) => (
+                      <label key={rating} title={`${rating} ${ar ? "نجوم" : rating === 1 ? "star" : "stars"}`}>
+                        <input type="radio" name="rating" value={rating} aria-label={`${rating} ${ar ? "نجوم" : rating === 1 ? "star" : "stars"}`} required />
+                        <Star aria-hidden="true" />
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
                 <label>{ar ? "تقييمك" : "Your review"}<textarea name="review" rows={5} minLength={30} maxLength={1500} placeholder={ar ? "ما الذي أعجبك؟ وكيف ساعد المعلم على التقدم؟" : "What worked well, and how did the teacher support progress?"} required></textarea></label>
-                <label className="consent"><input type="checkbox" name="consent" value="yes" required /><span>{ar ? "أؤكد أن هذا التقييم يعبر عن تجربة حقيقية وأوافق على مراجعته قبل النشر." : "I confirm this review reflects a genuine experience and may be moderated before publication."}</span></label>
-                <button className="button button-blue form-submit" type="submit">{ar ? "إرسال التقييم للمراجعة" : "Submit review for moderation"}<Arrow /></button>
+                <button className="button button-blue form-submit" type="submit">{ar ? "إرسال التقييم" : "Submit review"}<Arrow /></button>
               </form>
             </section>
           </div>

@@ -1,5 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Almarai, Manrope } from "next/font/google";
 import "./globals.css";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+  display: "swap",
+});
+
+const almarai = Almarai({
+  subsets: ["arabic", "latin"],
+  weight: ["300", "400", "700", "800"],
+  variable: "--font-almarai",
+  display: "swap",
+});
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://alarabiyaacademy.com";
 
@@ -112,7 +126,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${manrope.variable} ${almarai.variable}`}>
         {children}
         <script
           type="application/ld+json"

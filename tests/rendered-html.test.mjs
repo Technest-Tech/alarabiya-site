@@ -73,13 +73,16 @@ test("course and teacher detail pages are generated in both languages", async ()
   assert.match(courseEn, /Inside the program/);
   assert.match(courseAr, /مسار واضح نحو/);
   assert.match(courseAr, /داخل البرنامج/);
-  assert.match(teacherEn, /Submit a genuine review/);
+  assert.match(teacherEn, /Submit a review/);
   assert.match(teacherEn, /action="\/api\/review\.php"/);
+  assert.match(teacherEn, /type="radio"[^>]*name="rating" value="5"/);
+  assert.match(teacherEn, /name="review"/);
+  assert.doesNotMatch(teacherEn, /name="email"|name="relationship"|name="consent"/);
   assert.match(teacherEn, /Mohamed Samy/);
   assert.match(teacherEn, /Lesson standards/);
   assert.match(teacherEn, /Free personal assessment/);
   assert.doesNotMatch(teacherEn, /Demo profile|Demo tutor|Demo review|demo reviews|not verified testimonials/);
-  assert.match(teacherAr, /أرسل تقييماً حقيقياً/);
+  assert.match(teacherAr, /أرسل تقييمك/);
   assert.match(teacherAr, /محمد سامي/);
   assert.doesNotMatch(teacherAr, /ملف تجريبي|تقييم تجريبي|تقييمات تجريبية|بيانات تجريبية/);
   assert.match(teacherAr, /dir="rtl"/);
