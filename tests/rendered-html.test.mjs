@@ -65,6 +65,7 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(html, /\/images\/course-quran-reading\.webp/);
   assert.match(css, /\.rtl-site \.hero-content\s*\{[^}]*direction: ltr/);
   assert.match(css, /\.rtl-site \.hero-copy\s*\{[^}]*direction: rtl/);
+  assert.match(css, /\/images\/hero-family-ar\.webp/);
 });
 
 test("course and teacher detail pages are generated in both languages", async () => {
@@ -115,6 +116,7 @@ test("Hostinger build contains required public files", async () => {
     access(new URL("dist/client/og.png", root)),
     access(new URL("dist/client/logo.png", root)),
     access(new URL("dist/client/images/hero-family.webp", root)),
+    access(new URL("dist/client/images/hero-family-ar.webp", root)),
     access(new URL("dist/client/images/student-learning.webp", root)),
     access(new URL("dist/client/images/female-tutor.webp", root)),
     access(new URL("dist/client/images/course-quran-reading.webp", root)),

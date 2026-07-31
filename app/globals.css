@@ -296,11 +296,35 @@ img {
 .rtl-site .hero-copy {
   direction: rtl;
   text-align: right;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .rtl-site .hero-kicker {
   margin-right: 0;
   margin-left: auto;
+}
+
+.rtl-site .hero-photo {
+  background-image:
+    linear-gradient(270deg, rgba(5, 42, 78, 0.94) 0%, rgba(5, 53, 96, 0.82) 31%, rgba(8, 75, 126, 0.23) 58%, rgba(6, 45, 86, 0.04) 100%),
+    url("/images/hero-family-ar.webp");
+  background-position: center;
+}
+
+.rtl-site .hero-pattern {
+  right: -160px;
+  left: auto;
+}
+
+.rtl-site .hero-live-vectors {
+  right: auto;
+  left: clamp(28px, 5vw, 78px);
+}
+
+.rtl-site .hero-badge {
+  right: auto;
+  left: clamp(25px, 7vw, 100px);
 }
 
 .hero-kicker {
@@ -4866,6 +4890,11 @@ footer {
     right: 30px;
   }
 
+  .rtl-site .hero-badge {
+    right: 30px;
+    left: auto;
+  }
+
   .hero-live-vectors {
     width: 245px;
     height: 110px;
@@ -4873,6 +4902,11 @@ footer {
     right: auto;
     top: auto;
     bottom: 65px;
+  }
+
+  .rtl-site .hero-live-vectors {
+    right: auto;
+    left: 30px;
   }
 
   .hero-vector-orbit,
@@ -5134,6 +5168,13 @@ footer {
     background-position: 62% center;
   }
 
+  .rtl-site .hero-photo {
+    background-image:
+      linear-gradient(180deg, rgba(5, 42, 78, 0.75) 0%, rgba(5, 42, 78, 0.7) 52%, rgba(5, 42, 78, 0.96) 100%),
+      url("/images/hero-family-ar.webp");
+    background-position: 42% center;
+  }
+
   .hero-content {
     padding: 62px 20px 220px;
   }
@@ -5179,10 +5220,19 @@ footer {
     border-width: 5px;
   }
 
+  .rtl-site .hero-badge {
+    right: 18px;
+    left: auto;
+  }
+
   .hero-live-vectors {
     width: 215px;
     left: 16px;
     bottom: 66px;
+  }
+
+  .rtl-site .hero-live-vectors {
+    left: 16px;
   }
 
   .hero-live-toggle {
