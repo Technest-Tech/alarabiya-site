@@ -54,7 +54,7 @@ export const metadata: Metadata = {
       "Personal live Quran and Arabic lessons for children and adults, wherever you are.",
     images: [
       {
-        url: "/og.png",
+        url: "/og-arabic-quran.png",
         width: 1200,
         height: 630,
         alt: "Alarabiya Academy — Learn with clarity. Grow with faith.",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     title: "Learn the Quran with clarity. Live it with heart.",
     description:
       "Personal live Quran and Arabic lessons for children and adults.",
-    images: ["/og.png"],
+    images: ["/og-arabic-quran.png"],
   },
   robots: {
     index: true,

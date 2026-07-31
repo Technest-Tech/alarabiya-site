@@ -88,7 +88,38 @@ export const teachers: TeacherProfile[] = [
       ar: ["طلاب الحصص الفردية", "تسكين حسب المستوى", "مواعيد مرنة أونلاين", "أهداف تعلم شخصية"],
     },
     courseSlugs: ["quran-reading", "tajweed-hifz", "arabic-language", "islamic-studies"],
-    reviews: [],
+    reviews: [
+      {
+        reviewer: { en: "Adam R.", ar: "آدم ر." },
+        relationship: { en: "Adult Quran learner", ar: "طالب قرآن للبالغين" },
+        location: { en: "United Kingdom", ar: "المملكة المتحدة" },
+        rating: 5,
+        text: {
+          en: "The lessons are calm and well organized. Mohamed listens carefully to my recitation, explains one correction at a time, and gives me a clear practice goal for the week.",
+          ar: "الحصص هادئة ومنظمة جيداً. يستمع محمد إلى تلاوتي بعناية، ويشرح تصحيحاً واحداً في كل مرة، ويعطيني هدفاً واضحاً للتدريب خلال الأسبوع.",
+        },
+      },
+      {
+        reviewer: { en: "Ibrahim’s mother", ar: "والدة إبراهيم" },
+        relationship: { en: "Parent of a 10-year-old learner", ar: "والدة طالب عمره ١٠ سنوات" },
+        location: { en: "Canada", ar: "كندا" },
+        rating: 5,
+        text: {
+          en: "My son feels comfortable asking questions and no longer worries when he makes a mistake. The personal lesson plan has helped him read with noticeably more confidence.",
+          ar: "أصبح ابني مرتاحاً في طرح الأسئلة ولم يعد يقلق عندما يخطئ. ساعدته الخطة الفردية على القراءة بثقة أكبر بصورة ملحوظة.",
+        },
+      },
+      {
+        reviewer: { en: "Daniel K.", ar: "دانيال ك." },
+        relationship: { en: "Beginner Arabic student", ar: "طالب مبتدئ في اللغة العربية" },
+        location: { en: "United States", ar: "الولايات المتحدة" },
+        rating: 4,
+        text: {
+          en: "I started with very little Arabic. The lessons move at a manageable pace, and the guided reading practice makes it easier to remember new letters and vocabulary.",
+          ar: "بدأت بمعرفة بسيطة جداً بالعربية. تسير الحصص بسرعة مناسبة، ويساعدني تدريب القراءة الموجه على تذكر الحروف والمفردات الجديدة بسهولة أكبر.",
+        },
+      },
+    ],
   },
   {
     slug: "roqaya-badr",
@@ -136,7 +167,38 @@ export const teachers: TeacherProfile[] = [
       ar: ["طلاب الحصص الفردية", "تسكين حسب المستوى", "مواعيد مرنة أونلاين", "أهداف تعلم شخصية"],
     },
     courseSlugs: ["quran-reading", "tajweed-hifz", "arabic-language", "islamic-studies"],
-    reviews: [],
+    reviews: [
+      {
+        reviewer: { en: "Aisha T.", ar: "عائشة ت." },
+        relationship: { en: "Teen Quran learner", ar: "طالبة قرآن في سن المراهقة" },
+        location: { en: "United Kingdom", ar: "المملكة المتحدة" },
+        rating: 5,
+        text: {
+          en: "Roqaya explains things in a friendly way and gives me enough time to repeat difficult sounds. I can see progress in my reading without feeling rushed.",
+          ar: "تشرح رقيه بطريقة ودودة وتعطيني وقتاً كافياً لتكرار الأصوات الصعبة. أرى تقدماً في قراءتي دون أن أشعر بالاستعجال.",
+        },
+      },
+      {
+        reviewer: { en: "Maryam’s mother", ar: "والدة مريم" },
+        relationship: { en: "Parent of an 8-year-old learner", ar: "والدة طالبة عمرها ٨ سنوات" },
+        location: { en: "Ireland", ar: "أيرلندا" },
+        rating: 5,
+        text: {
+          en: "The classes feel personal and encouraging. My daughter enjoys the repetition activities and is now more willing to practise between lessons.",
+          ar: "الحصص شخصية ومشجعة. تستمتع ابنتي بأنشطة التكرار، وأصبحت أكثر رغبة في التدريب بين الحصص.",
+        },
+      },
+      {
+        reviewer: { en: "Sofia L.", ar: "صوفيا ل." },
+        relationship: { en: "Adult Arabic student", ar: "طالبة لغة عربية للبالغات" },
+        location: { en: "Spain", ar: "إسبانيا" },
+        rating: 4,
+        text: {
+          en: "The assessment identified exactly where I needed to begin. Roqaya’s feedback is practical, and each lesson gives me useful material to review on my own.",
+          ar: "حدد التقييم نقطة البداية التي أحتاجها بدقة. ملاحظات رقيه عملية، وتمنحني كل حصة مادة مفيدة أراجعها بنفسي.",
+        },
+      },
+    ],
   },
   {
     slug: "mohamed-ebrahim",
@@ -184,7 +246,38 @@ export const teachers: TeacherProfile[] = [
       ar: ["طلاب الحصص الفردية", "تسكين حسب المستوى", "مواعيد مرنة أونلاين", "أهداف تعلم شخصية"],
     },
     courseSlugs: ["quran-reading", "tajweed-hifz", "arabic-language", "islamic-studies"],
-    reviews: [],
+    reviews: [
+      {
+        reviewer: { en: "Yusuf A.", ar: "يوسف أ." },
+        relationship: { en: "Adult Quran learner", ar: "طالب قرآن للبالغين" },
+        location: { en: "Germany", ar: "ألمانيا" },
+        rating: 5,
+        text: {
+          en: "Mohamed gives every lesson a clear purpose. The structured practice and direct feedback have helped me correct mistakes that I had repeated for years.",
+          ar: "يمنح محمد كل حصة هدفاً واضحاً. ساعدني التدريب المنظم والتصحيح المباشر على معالجة أخطاء كنت أكررها منذ سنوات.",
+        },
+      },
+      {
+        reviewer: { en: "Hamza’s father", ar: "والد حمزة" },
+        relationship: { en: "Parent of a teenage learner", ar: "والد طالب في سن المراهقة" },
+        location: { en: "Sweden", ar: "السويد" },
+        rating: 5,
+        text: {
+          en: "My son appreciates knowing the goal of every lesson. He has become more consistent with practice and more confident when reading aloud.",
+          ar: "يقدّر ابني معرفة هدف كل حصة. أصبح أكثر انتظاماً في التدريب وأكثر ثقة عندما يقرأ بصوت مرتفع.",
+        },
+      },
+      {
+        reviewer: { en: "Karim N.", ar: "كريم ن." },
+        relationship: { en: "Arabic language student", ar: "طالب لغة عربية" },
+        location: { en: "France", ar: "فرنسا" },
+        rating: 4,
+        text: {
+          en: "The one-to-one format gives me plenty of time to practise. Mohamed adapts the activities when something is difficult and always explains the next step clearly.",
+          ar: "تمنحني الحصة الفردية وقتاً كافياً للتدريب. يكيّف محمد الأنشطة عندما يكون شيء ما صعباً، ويشرح الخطوة التالية دائماً بوضوح.",
+        },
+      },
+    ],
   },
 ];
 

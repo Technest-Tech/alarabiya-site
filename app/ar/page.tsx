@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     description: "دروس مباشرة وشخصية في القرآن واللغة العربية للأطفال والكبار أينما كانوا.",
     images: [
       {
-        url: "/og.png",
+        url: "/og-arabic-quran.png",
         width: 1200,
         height: 630,
         alt: "أكاديمية العربية لتعليم القرآن واللغة العربية",
@@ -227,7 +227,7 @@ export default function ArabicHome() {
         <div className="hero-content">
           <div className="hero-copy">
             <p className="hero-kicker"><span><Star size={13} fill="currentColor" /></span> تعلم فردي مباشر · أينما كنت</p>
-            <h1>تعلّم القرآن.<span>أحبَّ العربية.</span><em>وانمُ بالإيمان.</em></h1>
+            <h1>تعلّم العربية.<span>واقرأ القرآن.</span><em>وتقدّم بثقة.</em></h1>
             <p className="hero-lead">دروس تفاعلية أونلاين في القرآن واللغة العربية للأطفال والكبار، يقدمها معلمون ومعلمات مؤهلون.</p>
             <div className="hero-actions">
               <a className="button button-gold button-large" href="#enroll">ابدأ حصتك المجانية <ArrowLeft size={19} /></a>
@@ -399,7 +399,7 @@ export default function ArabicHome() {
           <label>البرنامج المطلوب
             <select name="program" defaultValue="" required>
               <option value="" disabled>اختر برنامجاً تعليمياً</option>
-              <option>قراءة القرآن</option><option>التجويد والحفظ</option><option>اللغة العربية</option><option>الدراسات الإسلامية</option><option>ساعدني على الاختيار</option>
+              <option>قراءة القرآن</option><option>التجويد والحفظ</option><option>اللغة العربية</option><option>اللغة العربية والقرآن</option><option>الدراسات الإسلامية</option><option>ساعدني على الاختيار</option>
             </select>
           </label>
           <label>أهداف التعلم <span>(اختياري)</span><textarea name="message" rows={3} placeholder="المستوى الحالي، الأهداف، المواعيد المناسبة..."></textarea></label>

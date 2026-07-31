@@ -72,6 +72,36 @@ const programs = [
   },
 ];
 
+const studyPaths = [
+  {
+    icon: BookOpen,
+    href: "/online-quran-classes/",
+    eyebrow: "Quran only",
+    title: "Learn Quran online",
+    description: "Quran reading, Tajweed, and Hifz for children and adults at every starting level.",
+    link: "Explore Quran classes",
+    color: "blue",
+  },
+  {
+    icon: Languages,
+    href: "/online-arabic-classes/",
+    eyebrow: "Arabic only",
+    title: "Learn Arabic online",
+    description: "Speaking, reading, listening, vocabulary, and practical grammar in personal live lessons.",
+    link: "Explore Arabic classes",
+    color: "sky",
+  },
+  {
+    icon: GraduationCap,
+    href: "/online-arabic-and-quran-classes/",
+    eyebrow: "Arabic + Quran",
+    title: "Learn both together",
+    description: "A coordinated plan that develops Arabic and Quran skills from their own starting levels.",
+    link: "Explore the combined plan",
+    color: "gold",
+  },
+];
+
 const features = [
   {
     icon: UserRoundCheck,
@@ -210,11 +240,11 @@ export default function Home() {
               <span><Star size={13} fill="currentColor" /></span>
               Live one-to-one learning · Worldwide
             </p>
-            <h1>
-              Learn Quran.
-              <span>Love Arabic.</span>
-              <em>Grow in faith.</em>
-            </h1>
+          <h1>
+            Learn Arabic.
+            <span>Read Quran.</span>
+            <em>Grow with confidence.</em>
+          </h1>
             <p className="hero-lead">
               Engaging online Quran and Arabic classes for children and adults,
               taught live by qualified male and female tutors.
@@ -264,6 +294,34 @@ export default function Home() {
           <span className="trust-icon"><Headphones size={27} /></span>
           <div><strong>Free assessment</strong><p>Meet your tutor first</p></div>
         </article>
+      </section>
+
+      <section className="home-study-paths" aria-labelledby="home-study-paths-title">
+        <div className="section-heading heading-center">
+          <p className="section-kicker"><span></span> Start with your learning goal <span></span></p>
+          <h2 id="home-study-paths-title">Arabic, Quran, or <em>both together</em></h2>
+          <p>Choose the subject you want today. Your free assessment will identify the right level and personal plan.</p>
+        </div>
+        <div className="home-study-path-grid">
+          {studyPaths.map((path) => {
+            const Icon = path.icon;
+            return (
+              <a className={`home-study-path path-${path.color}`} href={path.href} key={path.href}>
+                <span className="home-study-path-icon"><Icon /></span>
+                <small>{path.eyebrow}</small>
+                <h3>{path.title}</h3>
+                <p>{path.description}</p>
+                <strong>{path.link}<ArrowRight /></strong>
+              </a>
+            );
+          })}
+        </div>
+        <div className="home-audience-links" aria-label="Popular Quran class options">
+          <span>Looking for something specific?</span>
+          <a href="/online-quran-classes-for-kids/">Quran classes for kids</a>
+          <a href="/online-quran-classes-for-adults/">Quran classes for adults</a>
+          <a href="/female-quran-teacher-online/">Female Quran teacher</a>
+        </div>
       </section>
 
       <section className="programs-section" id="programs">
@@ -476,7 +534,7 @@ export default function Home() {
             <select name="program" defaultValue="" required>
               <option value="" disabled>Choose a learning program</option>
               <option>Quran Reading</option><option>Tajweed & Hifz</option>
-              <option>Arabic Language</option><option>Islamic Studies</option>
+              <option>Arabic Language</option><option>Arabic & Quran</option><option>Islamic Studies</option>
               <option>Help me choose</option>
             </select>
           </label>
@@ -524,8 +582,10 @@ export default function Home() {
           </div>
           <div>
             <strong>Programs</strong>
-            <a href="#programs">Quran Reading</a><a href="#programs">Tajweed & Hifz</a>
-            <a href="#programs">Arabic Language</a><a href="#programs">Islamic Studies</a>
+            <a href="/online-quran-classes/">Online Quran Classes</a>
+            <a href="/online-arabic-classes/">Online Arabic Classes</a>
+            <a href="/online-arabic-and-quran-classes/">Arabic & Quran Classes</a>
+            <a href="/courses/islamic-studies/">Islamic Studies</a>
           </div>
           <div>
             <strong>Get started</strong>

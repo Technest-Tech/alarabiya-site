@@ -4,19 +4,25 @@ import type { Locale } from "./site-data";
 export function SiteHeader({
   locale,
   alternateHref,
+  ctaHref,
+  ctaLabel,
 }: {
   locale: Locale;
   alternateHref: string;
+  ctaHref?: string;
+  ctaLabel?: string;
 }) {
   const ar = locale === "ar";
   const home = ar ? "/ar/" : "/";
   const Arrow = ar ? ArrowLeft : ArrowRight;
+  const actionHref = ctaHref || `${home}#enroll`;
+  const actionLabel = ctaLabel || (ar ? "حصة تجريبية مجانية" : "Free trial lesson");
 
   return (
     <>
       <div className="topbar">
         <p><Sparkles size={14} aria-hidden="true" />{ar ? " التسجيل متاح الآن للأطفال والكبار" : "Enrollment is open for kids and adults"}</p>
-        <a href={`${home}#enroll`}>{ar ? "احجز حصتك المجانية" : "Book your free trial"} <Arrow size={15} /></a>
+        <a href={actionHref}>{ctaLabel || (ar ? "اطلب تقييمك المجاني" : "Request your free assessment")} <Arrow size={15} /></a>
       </div>
       <header className="site-header detail-site-header">
         <a className="brand" href={home} aria-label={ar ? "الصفحة الرئيسية لأكاديمية العربية" : "Alarabiya Academy home"}>
@@ -37,7 +43,7 @@ export function SiteHeader({
             <a className={!ar ? "active" : ""} href={ar ? alternateHref : undefined} lang="en" aria-current={!ar ? "page" : undefined}>EN</a>
             <a className={ar ? "active" : ""} href={ar ? undefined : alternateHref} lang="ar" dir="rtl" aria-current={ar ? "page" : undefined}>العربية</a>
           </div>
-          <a className="header-cta" href={`${home}#enroll`}><CalendarCheck size={17} />{ar ? "حصة تجريبية مجانية" : "Free trial lesson"}</a>
+          <a className="header-cta" href={actionHref}><CalendarCheck size={17} />{actionLabel}</a>
         </div>
         <details className="mobile-menu">
           <summary aria-label={ar ? "فتح قائمة التنقل" : "Open navigation menu"}><span></span><span></span><span></span></summary>
@@ -50,7 +56,7 @@ export function SiteHeader({
               <a className={!ar ? "active" : ""} href={ar ? alternateHref : undefined} lang="en">English</a>
               <a className={ar ? "active" : ""} href={ar ? undefined : alternateHref} lang="ar" dir="rtl">العربية</a>
             </div>
-            <a className="button button-gold" href={`${home}#enroll`}>{ar ? "احجز حصة مجانية" : "Book a free trial"}</a>
+            <a className="button button-gold" href={actionHref}>{ctaLabel || (ar ? "اطلب تقييماً مجانياً" : "Request a free assessment")}</a>
           </nav>
         </details>
       </header>
@@ -81,10 +87,17 @@ export function SiteFooter({ locale }: { locale: Locale }) {
         </div>
         <div>
           <strong>{ar ? "البرامج" : "Programs"}</strong>
-          <a href={`${home}courses/quran-reading/`}>{ar ? "قراءة القرآن" : "Quran Reading"}</a>
-          <a href={`${home}courses/tajweed-hifz/`}>{ar ? "التجويد والحفظ" : "Tajweed & Hifz"}</a>
-          <a href={`${home}courses/arabic-language/`}>{ar ? "اللغة العربية" : "Arabic Language"}</a>
-          <a href={`${home}courses/islamic-studies/`}>{ar ? "الدراسات الإسلامية" : "Islamic Studies"}</a>
+          {ar ? <>
+            <a href={`${home}courses/quran-reading/`}>قراءة القرآن</a>
+            <a href={`${home}courses/tajweed-hifz/`}>التجويد والحفظ</a>
+            <a href={`${home}courses/arabic-language/`}>اللغة العربية</a>
+            <a href={`${home}courses/islamic-studies/`}>الدراسات الإسلامية</a>
+          </> : <>
+            <a href="/online-quran-classes/">Online Quran Classes</a>
+            <a href="/online-arabic-classes/">Online Arabic Classes</a>
+            <a href="/online-arabic-and-quran-classes/">Arabic & Quran Classes</a>
+            <a href="/courses/islamic-studies/">Islamic Studies</a>
+          </>}
         </div>
         <div>
           <strong>{ar ? "ابدأ الآن" : "Get started"}</strong>
