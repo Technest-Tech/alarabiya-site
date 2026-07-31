@@ -1,0 +1,21 @@
+{
+  "name": "Alarabiya Academy",
+  "short_name": "Alarabiya",
+  "description": "Personal online Quran and Arabic lessons for kids and adults.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf8f1",
+  "theme_color": "#0878c9",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
