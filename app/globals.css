@@ -285,6 +285,24 @@ img {
   padding: 90px clamp(24px, 6vw, 94px) 125px;
 }
 
+.hero-copy {
+  width: min(720px, 52vw);
+}
+
+.rtl-site .hero-content {
+  direction: ltr;
+}
+
+.rtl-site .hero-copy {
+  direction: rtl;
+  text-align: right;
+}
+
+.rtl-site .hero-kicker {
+  margin-right: 0;
+  margin-left: auto;
+}
+
 .hero-kicker {
   width: max-content;
   margin: 0 0 24px;
@@ -4832,6 +4850,14 @@ footer {
     padding-bottom: 220px;
   }
 
+  .hero-copy {
+    width: 100%;
+  }
+
+  .rtl-site .hero-content {
+    padding-bottom: 240px;
+  }
+
   .hero h1 {
     max-width: 650px;
   }
@@ -5110,6 +5136,10 @@ footer {
 
   .hero-content {
     padding: 62px 20px 220px;
+  }
+
+  .rtl-site .hero-content {
+    padding-bottom: 260px;
   }
 
   .hero-kicker {

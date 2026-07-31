@@ -205,35 +205,37 @@ export default function Home() {
         <div className="hero-photo" aria-hidden="true"></div>
         <div className="hero-pattern" aria-hidden="true"></div>
         <div className="hero-content">
-          <p className="hero-kicker">
-            <span><Star size={13} fill="currentColor" /></span>
-            Live one-to-one learning · Worldwide
-          </p>
-          <h1>
-            Learn Quran.
-            <span>Love Arabic.</span>
-            <em>Grow in faith.</em>
-          </h1>
-          <p className="hero-lead">
-            Engaging online Quran and Arabic classes for children and adults,
-            taught live by qualified male and female tutors.
-          </p>
-          <div className="hero-actions">
-            <a className="button button-gold button-large" href="#enroll">
-              Start your free lesson <ArrowRight size={19} />
-            </a>
-            <a className="hero-video-link" href="#how-it-works">
-              <span><Play size={17} fill="currentColor" /></span>
-              See how it works
-            </a>
-          </div>
-          <div className="hero-trust">
-            <div className="avatar-stack" aria-hidden="true">
-              <span>م</span><span>ع</span><span>ن</span>
+          <div className="hero-copy">
+            <p className="hero-kicker">
+              <span><Star size={13} fill="currentColor" /></span>
+              Live one-to-one learning · Worldwide
+            </p>
+            <h1>
+              Learn Quran.
+              <span>Love Arabic.</span>
+              <em>Grow in faith.</em>
+            </h1>
+            <p className="hero-lead">
+              Engaging online Quran and Arabic classes for children and adults,
+              taught live by qualified male and female tutors.
+            </p>
+            <div className="hero-actions">
+              <a className="button button-gold button-large" href="#enroll">
+                Start your free lesson <ArrowRight size={19} />
+              </a>
+              <a className="hero-video-link" href="#how-it-works">
+                <span><Play size={17} fill="currentColor" /></span>
+                See how it works
+              </a>
             </div>
-            <div>
-              <span className="stars" aria-label="Five stars">★★★★★</span>
-              <p>Personal support from the first lesson</p>
+            <div className="hero-trust">
+              <div className="avatar-stack" aria-hidden="true">
+                <span>م</span><span>ع</span><span>ن</span>
+              </div>
+              <div>
+                <span className="stars" aria-label="Five stars">★★★★★</span>
+                <p>Personal support from the first lesson</p>
+              </div>
             </div>
           </div>
         </div>

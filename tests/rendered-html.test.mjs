@@ -41,7 +41,10 @@ test("production homepage contains the academy conversion journey", async () => 
 });
 
 test("Arabic homepage is localized, RTL, and linked to English", async () => {
-  const html = await readFile(new URL("dist/client/ar/index.html", root), "utf8");
+  const [html, css] = await Promise.all([
+    readFile(new URL("dist/client/ar/index.html", root), "utf8"),
+    readFile(new URL("app/globals.css", root), "utf8"),
+  ]);
 
   assert.match(html, /dir="rtl"/);
   assert.match(html, /lang="ar"/);
@@ -49,6 +52,7 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(html, /برامج صُممت من أجل/);
   assert.match(html, /احجز حصتك المجانية/);
   assert.match(html, /معاينة حصة مباشرة/);
+  assert.match(html, /class="hero-copy"/);
   assert.match(html, /اضغط لتبدأ التجربة/);
   assert.match(html, /اختبر معلوماتك/);
   assert.match(html, /لمن تريد تحديد المستوى/);
@@ -59,6 +63,8 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(html, /action="\/api\/enroll\.php"/);
   assert.match(html, /href="\/"/);
   assert.match(html, /\/images\/course-quran-reading\.webp/);
+  assert.match(css, /\.rtl-site \.hero-content\s*\{[^}]*direction: ltr/);
+  assert.match(css, /\.rtl-site \.hero-copy\s*\{[^}]*direction: rtl/);
 });
 
 test("course and teacher detail pages are generated in both languages", async () => {

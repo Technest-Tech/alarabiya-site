@@ -225,16 +225,18 @@ export default function ArabicHome() {
         <div className="hero-photo" aria-hidden="true"></div>
         <div className="hero-pattern" aria-hidden="true"></div>
         <div className="hero-content">
-          <p className="hero-kicker"><span><Star size={13} fill="currentColor" /></span> تعلم فردي مباشر · أينما كنت</p>
-          <h1>تعلّم القرآن.<span>أحبَّ العربية.</span><em>وانمُ بالإيمان.</em></h1>
-          <p className="hero-lead">دروس تفاعلية أونلاين في القرآن واللغة العربية للأطفال والكبار، يقدمها معلمون ومعلمات مؤهلون.</p>
-          <div className="hero-actions">
-            <a className="button button-gold button-large" href="#enroll">ابدأ حصتك المجانية <ArrowLeft size={19} /></a>
-            <a className="hero-video-link" href="#how-it-works"><span><Play size={17} fill="currentColor" /></span> شاهد كيف نبدأ</a>
-          </div>
-          <div className="hero-trust">
-            <div className="avatar-stack" aria-hidden="true"><span>م</span><span>ع</span><span>ن</span></div>
-            <div><span className="stars" aria-label="خمس نجوم">★★★★★</span><p>دعم شخصي منذ الحصة الأولى</p></div>
+          <div className="hero-copy">
+            <p className="hero-kicker"><span><Star size={13} fill="currentColor" /></span> تعلم فردي مباشر · أينما كنت</p>
+            <h1>تعلّم القرآن.<span>أحبَّ العربية.</span><em>وانمُ بالإيمان.</em></h1>
+            <p className="hero-lead">دروس تفاعلية أونلاين في القرآن واللغة العربية للأطفال والكبار، يقدمها معلمون ومعلمات مؤهلون.</p>
+            <div className="hero-actions">
+              <a className="button button-gold button-large" href="#enroll">ابدأ حصتك المجانية <ArrowLeft size={19} /></a>
+              <a className="hero-video-link" href="#how-it-works"><span><Play size={17} fill="currentColor" /></span> شاهد كيف نبدأ</a>
+            </div>
+            <div className="hero-trust">
+              <div className="avatar-stack" aria-hidden="true"><span>م</span><span>ع</span><span>ن</span></div>
+              <div><span className="stars" aria-label="خمس نجوم">★★★★★</span><p>دعم شخصي منذ الحصة الأولى</p></div>
+            </div>
           </div>
         </div>
         <HeroLiveVectors locale="ar" />
