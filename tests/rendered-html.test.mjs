@@ -66,6 +66,7 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(css, /\.rtl-site \.hero-content\s*\{[^}]*direction: ltr/);
   assert.match(css, /\.rtl-site \.hero-copy\s*\{[^}]*direction: rtl/);
   assert.match(css, /\/images\/hero-family-ar\.webp/);
+  assert.match(css, /html,\s*body\s*\{\s*overflow-x: clip/);
 });
 
 test("course and teacher detail pages are generated in both languages", async () => {

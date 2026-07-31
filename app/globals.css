@@ -23,15 +23,27 @@
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   color: var(--ink);
   background: var(--white);
   font-family: var(--font-manrope), "Segoe UI", Arial, sans-serif;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
+}
+
+@supports (overflow: clip) {
+  html,
+  body {
+    overflow-x: clip;
+  }
 }
 
 a {
