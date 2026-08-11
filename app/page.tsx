@@ -507,11 +507,12 @@ export default function Home() {
             <span><Check /> No payment required</span>
           </div>
         </div>
-        <form className="enrollment-form" action="/api/enroll.php" method="post">
+        <form className="enrollment-form" action="/api/enroll" method="post">
           <div className="form-title">
             <span><CalendarCheck size={24} /></span>
             <div><strong>Book your free trial</strong><small>We usually reply within one working day</small></div>
           </div>
+          <input type="hidden" name="locale" value="en" />
           <div className="honeypot" aria-hidden="true">
             <label htmlFor="website">Website</label>
             <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
@@ -590,7 +591,14 @@ export default function Home() {
           <div>
             <strong>Get started</strong>
             <a href="#enroll">Book a free lesson</a><a href="#faq">Common questions</a>
-            <a href="mailto:hello@alarabiyaacademy.com">hello@alarabiyaacademy.com</a>
+            <a href="mailto:hello@alarabiyaacademy.com" data-site-setting="contact-email">hello@alarabiyaacademy.com</a>
+            <a href="#" data-site-setting="whatsapp" target="_blank" rel="noreferrer" hidden>WhatsApp</a>
+            <div className="managed-social-links" aria-label="Social media">
+              <a href="#" data-site-setting="facebook-url" target="_blank" rel="noreferrer" hidden>Facebook</a>
+              <a href="#" data-site-setting="instagram-url" target="_blank" rel="noreferrer" hidden>Instagram</a>
+              <a href="#" data-site-setting="youtube-url" target="_blank" rel="noreferrer" hidden>YouTube</a>
+              <a href="#" data-site-setting="tiktok-url" target="_blank" rel="noreferrer" hidden>TikTok</a>
+            </div>
           </div>
         </div>
         <div className="footer-bottom">

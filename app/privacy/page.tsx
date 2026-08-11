@@ -31,7 +31,7 @@ export default function PrivacyPage() {
         </section>
         <section>
           <h2>Contact</h2>
-          <p>For privacy questions, email <a href="mailto:hello@alarabiyaacademy.com">hello@alarabiyaacademy.com</a>.</p>
+          <p>For privacy questions, email <a href="mailto:hello@alarabiyaacademy.com" data-site-setting="contact-email">hello@alarabiyaacademy.com</a>.</p>
         </section>
         <p className="legal-note">This starter policy should be reviewed for the academy&apos;s country, business practices, analytics tools, advertising setup, and applicable laws before launch.</p>
       </article>

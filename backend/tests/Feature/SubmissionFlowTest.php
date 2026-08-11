@@ -1,0 +1,129 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Mail\NewEnrollmentSubmission;
+use App\Mail\NewReviewSubmission;
+use App\Models\EnrollmentSubmission;
+use App\Models\SiteSetting;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Mail;
+use Tests\TestCase;
+
+class SubmissionFlowTest extends TestCase
+{
+    use RefreshDatabase;
+
+    public function test_enrollment_is_stored_and_notification_is_sent(): void
+    {
+        Mail::fake();
+        SiteSetting::query()->create([
+            ...SiteSetting::defaults(),
+            'notification_email' => 'admissions@example.com',
+        ]);
+
+        $response = $this->post('/api/enroll', [
+            'name' => 'Amina Hassan',
+            'email' => 'amina@example.com',
+            'phone' => '+20 100 123 4567',
+            'age' => '9–12 years',
+            'program' => 'Quran Reading',
+            'message' => 'I would like an evening lesson.',
+            'locale' => 'en',
+            'consent' => 'yes',
+            'website' => '',
+        ]);
+
+        $response->assertOk()->assertSee('Your first step is complete');
+        $this->assertDatabaseHas('enrollment_submissions', [
+            'email' => 'amina@example.com',
+            'program' => 'Quran Reading',
+            'status' => 'new',
+        ]);
+        $this->assertNotNull(EnrollmentSubmission::query()->firstOrFail()->emailed_at);
+        Mail::assertSent(NewEnrollmentSubmission::class, fn (NewEnrollmentSubmission $mail): bool => $mail->hasTo('admissions@example.com') && $mail->submission->email === 'amina@example.com'
+        );
+    }
+
+    public function test_honeypot_submission_is_acknowledged_but_not_stored(): void
+    {
+        Mail::fake();
+
+        $this->post('/api/enroll', [
+            'website' => 'https://spam.example',
+        ])->assertOk();
+
+        $this->assertDatabaseCount('enrollment_submissions', 0);
+        Mail::assertNothingSent();
+    }
+
+    public function test_invalid_enrollment_is_rejected(): void
+    {
+        $this->post('/api/enroll', [
+            'name' => 'Incomplete',
+            'locale' => 'en',
+        ])->assertStatus(422)->assertSee('Please check your details');
+
+        $this->assertDatabaseCount('enrollment_submissions', 0);
+    }
+
+    public function test_review_is_stored_for_moderation(): void
+    {
+        Mail::fake();
+        SiteSetting::query()->create(SiteSetting::defaults());
+
+        $response = $this->post('/api/reviews', [
+            'teacher' => 'Mohamed Samy (mohamed-samy)',
+            'name' => 'Yusuf Ali',
+            'rating' => 5,
+            'review' => 'The lessons were clear, patient, and very helpful for my recitation.',
+            'locale' => 'en',
+            'website' => '',
+        ]);
+
+        $response->assertOk()->assertSee('Your review was submitted');
+        $this->assertDatabaseHas('review_submissions', [
+            'reviewer_name' => 'Yusuf Ali',
+            'rating' => 5,
+            'status' => 'pending',
+        ]);
+        Mail::assertSent(NewReviewSubmission::class);
+    }
+
+    public function test_public_settings_only_expose_public_contact_values(): void
+    {
+        SiteSetting::query()->create([
+            ...SiteSetting::defaults(),
+            'contact_email' => 'contact@example.com',
+            'notification_email' => 'private-inbox@example.com',
+            'whatsapp_number' => '+20 100 123 4567',
+            'instagram_url' => 'https://instagram.com/example',
+        ]);
+
+        $response = $this->getJson('/api/site-settings');
+
+        $response
+            ->assertOk()
+            ->assertJsonPath('contactEmail', 'contact@example.com')
+            ->assertJsonPath('whatsappUrl', 'https://wa.me/201001234567?text=Assalamu%20alaikum%2C%20I%20would%20like%20to%20learn%20more%20about%20Alarabiya%20Academy.')
+            ->assertJsonMissing(['notification_email' => 'private-inbox@example.com']);
+        $this->assertStringNotContainsString('private-inbox', $response->getContent());
+    }
+
+    public function test_admin_requires_authentication(): void
+    {
+        $this->get('/admin')->assertRedirect('/admin/login');
+    }
+
+    public function test_admin_can_open_dashboard_resources_and_settings(): void
+    {
+        $user = User::factory()->create();
+        $settings = SiteSetting::query()->create(SiteSetting::defaults());
+
+        $this->actingAs($user)->get('/admin')->assertOk();
+        $this->actingAs($user)->get('/admin/enrollment-submissions')->assertOk();
+        $this->actingAs($user)->get('/admin/review-submissions')->assertOk();
+        $this->actingAs($user)->get("/admin/site-settings/{$settings->getKey()}/edit")->assertOk();
+    }
+}

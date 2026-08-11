@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Almarai, Manrope } from "next/font/google";
 import "./globals.css";
+import SiteSettingsHydrator from "./site-settings-hydrator";
 
 const manrope = Manrope({
   subsets: ["latin"],
@@ -128,6 +129,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${manrope.variable} ${almarai.variable}`}>
         {children}
+        <SiteSettingsHydrator />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

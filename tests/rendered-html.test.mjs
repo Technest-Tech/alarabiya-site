@@ -39,7 +39,7 @@ test("production homepage contains the academy conversion journey", async () => 
   assert.match(html, /Test your knowledge/);
   assert.match(html, /Who would you like to assess/);
   assert.match(html, /Continue/);
-  assert.match(html, /action="\/api\/enroll\.php"/);
+  assert.match(html, /action="\/api\/enroll"/);
   assert.match(html, /application\/ld\+json/);
   assert.match(html, /og:image/);
   assert.doesNotMatch(html, /codex-preview|Your site is taking shape|Starter Project/);
@@ -65,7 +65,7 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(html, /تعرّف إلى بعض/);
   assert.match(html, /\/ar\/teachers\/mohamed-samy\//);
   assert.match(html, /\/ar\/courses\/quran-reading\//);
-  assert.match(html, /action="\/api\/enroll\.php"/);
+  assert.match(html, /action="\/api\/enroll"/);
   assert.match(html, /href="\/"/);
   assert.match(html, /\/images\/course-quran-reading\.webp/);
   assert.match(css, /\.rtl-site \.hero-content\s*\{[^}]*direction: ltr/);
@@ -87,7 +87,7 @@ test("course and teacher detail pages are generated in both languages", async ()
   assert.match(courseAr, /مسار واضح نحو/);
   assert.match(courseAr, /داخل البرنامج/);
   assert.match(teacherEn, /Submit a review/);
-  assert.match(teacherEn, /action="\/api\/review\.php"/);
+  assert.match(teacherEn, /action="\/api\/reviews"/);
   assert.match(teacherEn, /type="radio"[^>]*name="rating" value="5"/);
   assert.match(teacherEn, /name="review"/);
   assert.doesNotMatch(teacherEn, /name="email"|name="relationship"|name="consent"/);
@@ -114,7 +114,7 @@ test("buyer-focused Quran, Arabic, and combined landing pages are generated", as
   for (const html of pages) {
     assert.match(html, /Request a free assessment/);
     assert.match(html, /name="program"/);
-    assert.match(html, /action="\/api\/enroll\.php"/);
+    assert.match(html, /action="\/api\/enroll"/);
     assert.match(html, /Choose the right study focus/);
     assert.match(html, /Personal tutor matching/);
     assert.match(html, /application\/ld\+json/);
@@ -139,36 +139,38 @@ test("placement quiz contains real Arabic, Islamic, and Tajweed questions", asyn
   assert.match(quiz, /كم حركة يُمد المد الطبيعي/);
 });
 
-test("Hostinger build contains required public files", async () => {
+test("Hostinger build contains the Laravel entrypoint and static public files", async () => {
   await Promise.all([
-    access(new URL("dist/client/.htaccess", root)),
-    access(new URL("dist/client/api/enroll.php", root)),
-    access(new URL("dist/client/api/review.php", root)),
-    access(new URL("dist/client/robots.txt", root)),
-    access(new URL("dist/client/sitemap.xml", root)),
-    access(new URL("dist/client/og-arabic-quran.png", root)),
-    access(new URL("dist/client/logo.png", root)),
-    access(new URL("dist/client/images/hero-family.webp", root)),
-    access(new URL("dist/client/images/hero-family-ar.webp", root)),
-    access(new URL("dist/client/images/student-learning.webp", root)),
-    access(new URL("dist/client/images/female-tutor.webp", root)),
-    access(new URL("dist/client/images/course-quran-reading.webp", root)),
-    access(new URL("dist/client/images/course-tajweed-hifz.webp", root)),
-    access(new URL("dist/client/images/course-arabic-language.webp", root)),
-    access(new URL("dist/client/images/course-islamic-studies.webp", root)),
-    access(new URL("dist/client/images/teacher-mohamed-samy.webp", root)),
-    access(new URL("dist/client/images/teacher-ruqaya-badr.webp", root)),
-    access(new URL("dist/client/images/teacher-mohamed-ebrahim.webp", root)),
-    access(new URL("dist/client/favicon.png", root)),
-    access(new URL("dist/client/ar/index.html", root)),
-    access(new URL("dist/client/online-quran-classes/index.html", root)),
-    access(new URL("dist/client/online-quran-classes-for-kids/index.html", root)),
-    access(new URL("dist/client/online-quran-classes-for-adults/index.html", root)),
-    access(new URL("dist/client/female-quran-teacher-online/index.html", root)),
-    access(new URL("dist/client/online-arabic-classes/index.html", root)),
-    access(new URL("dist/client/online-arabic-and-quran-classes/index.html", root)),
-    access(new URL("dist/client/privacy/index.html", root)),
-    access(new URL("dist/client/terms/index.html", root)),
+    access(new URL("backend/.htaccess", root)),
+    access(new URL("backend/public/.htaccess", root)),
+    access(new URL("backend/public/index.php", root)),
+    access(new URL("backend/routes/api.php", root)),
+    access(new URL("backend/public/site/index.html", root)),
+    access(new URL("backend/public/robots.txt", root)),
+    access(new URL("backend/public/sitemap.xml", root)),
+    access(new URL("backend/public/og-arabic-quran.png", root)),
+    access(new URL("backend/public/logo.png", root)),
+    access(new URL("backend/public/images/hero-family.webp", root)),
+    access(new URL("backend/public/images/hero-family-ar.webp", root)),
+    access(new URL("backend/public/images/student-learning.webp", root)),
+    access(new URL("backend/public/images/female-tutor.webp", root)),
+    access(new URL("backend/public/images/course-quran-reading.webp", root)),
+    access(new URL("backend/public/images/course-tajweed-hifz.webp", root)),
+    access(new URL("backend/public/images/course-arabic-language.webp", root)),
+    access(new URL("backend/public/images/course-islamic-studies.webp", root)),
+    access(new URL("backend/public/images/teacher-mohamed-samy.webp", root)),
+    access(new URL("backend/public/images/teacher-ruqaya-badr.webp", root)),
+    access(new URL("backend/public/images/teacher-mohamed-ebrahim.webp", root)),
+    access(new URL("backend/public/favicon.png", root)),
+    access(new URL("backend/public/ar/index.html", root)),
+    access(new URL("backend/public/online-quran-classes/index.html", root)),
+    access(new URL("backend/public/online-quran-classes-for-kids/index.html", root)),
+    access(new URL("backend/public/online-quran-classes-for-adults/index.html", root)),
+    access(new URL("backend/public/female-quran-teacher-online/index.html", root)),
+    access(new URL("backend/public/online-arabic-classes/index.html", root)),
+    access(new URL("backend/public/online-arabic-and-quran-classes/index.html", root)),
+    access(new URL("backend/public/privacy/index.html", root)),
+    access(new URL("backend/public/terms/index.html", root)),
   ]);
 });
 

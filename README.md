@@ -1,45 +1,99 @@
 # Alarabiya Academy
 
-A premium, responsive enrollment website for an online Quran and Arabic academy.
+Alarabiya Academy uses a prebuilt Next/Vite frontend with a Laravel 12 and Filament 5 backend. The production server only needs PHP and MySQL; Node.js is used locally to compile the static frontend and is not required on Hostinger.
 
 ## What is included
 
-- Conversion-focused homepage for Google Ads traffic
-- Quran Reading, Tajweed & Hifz, Arabic, and Islamic Studies programs
-- Responsive desktop, tablet, and mobile layouts
-- Accessible navigation, FAQ, and enrollment form
-- Hostinger-compatible PHP lead handler
-- Privacy and terms pages
-- SEO metadata, structured data, sitemap, robots file, social card, and favicons
-- Apache caching, compression, HTTPS redirect, and security headers
+- Responsive English and Arabic academy website
+- Laravel endpoints that validate and store every enrollment and review submission
+- Synchronous SMTP notifications with submissions retained when email delivery fails
+- Filament dashboard at `/admin`
+- Lead statuses: new, contacted, enrolled, closed, and spam
+- Teacher-review moderation statuses
+- Editable public contact email, notification inbox, WhatsApp number/message, and social links
+- Honeypot and request rate limiting for public forms
+- Hostinger shared-hosting build and packaging scripts
 
-## Local development
+## Architecture
+
+The frontend remains static for speed and SEO. Laravel handles `/api/*`, `/admin`, email, and database work. The public frontend fetches `/api/site-settings` after load so contact and social details changed in Filament appear without rebuilding the site.
+
+This hybrid approach avoids a frontend rewrite and does not require a Node.js process, queue worker, Redis, or VPS in production.
+
+## Local setup
+
+Requirements: Node.js 22+, PHP 8.2+, Composer 2, and the PHP extensions required by Laravel.
 
 ```bash
 npm install
+cd backend
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate --seed
+php artisan make:filament-user
+```
+
+For frontend-only design work:
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:3000`.
-
-## Production build
+To test the complete website, API, and dashboard through Laravel:
 
 ```bash
-npm run build
+npm run build:hostinger
+cd backend
+php artisan serve
 ```
 
-The Hostinger-ready static site is generated in `dist/client`.
+Then open `http://127.0.0.1:8000` and `http://127.0.0.1:8000/admin`.
 
-## Hostinger deployment
+## Tests
 
-1. Update the academy name, real domain, email address, verified claims, and final policies.
-2. Set `NEXT_PUBLIC_SITE_URL` to the real domain before building.
-3. Update the domain in `public/robots.txt` and `public/sitemap.xml`.
-4. Set the Hostinger environment variable `ALARABIYA_ENROLLMENT_EMAIL` to the inbox that should receive leads, or replace the fallback recipient in `public/api/enroll.php`.
-5. Upload the contents of `dist/client` into the domain's `public_html` directory.
-6. Confirm PHP `mail()` works on the hosting plan, or connect the form to authenticated SMTP.
-7. Add Google Analytics and Google Ads conversion IDs only after consent/privacy requirements are finalized.
+```bash
+npm test
+npm run test:backend
+```
+
+## Hostinger shared-hosting deployment
+
+Hostinger shared hosting supports Laravel 12 and Composer 2. Set the website to PHP 8.2 or newer and create a MySQL database and an email mailbox first.
+
+1. On your local machine, create the upload archive:
+
+   ```bash
+   npm run package:hostinger
+   ```
+
+2. Upload `alarabiya-laravel-hostinger.zip` to the domain's `public_html` directory and extract it there. The included root `.htaccess` internally routes requests to Laravel's `public` directory while keeping clean URLs.
+3. Open Hostinger SSH, change into `public_html`, and install production PHP packages:
+
+   ```bash
+   composer2 install --no-dev --optimize-autoloader
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. Edit `.env` with the real domain, Hostinger MySQL credentials, and SMTP mailbox credentials. Keep `APP_DEBUG=false`, `QUEUE_CONNECTION=sync`, and `APP_ENV=production`.
+5. Finish setup:
+
+   ```bash
+   php artisan migrate --seed --force
+   php artisan make:filament-user
+   php artisan optimize
+   ```
+
+6. Sign in at `https://your-domain.com/admin`, open **Site settings**, and enter the real email, WhatsApp number, and social URLs.
+7. Submit one real test form and confirm that it appears under **Enrollment leads** and reaches the configured notification inbox.
+
+No `npm install`, `npm run`, Node.js server, cron job, or queue worker is needed on Hostinger. Rebuild and re-upload the package only when frontend code changes; dashboard setting changes are immediate.
+
+## Mail settings
+
+The dashboard manages public and recipient email addresses. SMTP credentials stay in `.env` so they are not exposed to admin pages or the public API. Hostinger defaults are included in `.env.example`; replace the mailbox and password before launch.
 
 ## Important launch note
 
-`alarabiyaacademy.com` and `hello@alarabiyaacademy.com` are working domain and email assumptions. Replace them if the academy uses different contact details.
+`alarabiyaacademy.com` and `hello@alarabiyaacademy.com` are working assumptions. Replace them with the academy's final domain and mailbox, and have the privacy policy and terms reviewed for the operating country and actual business practices.

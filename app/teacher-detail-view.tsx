@@ -158,7 +158,7 @@ export default function TeacherDetailView({ teacher, locale }: { teacher: Teache
                 <span><Star /></span>
                 <div><small>{ar ? "شارك تجربتك" : "Share your experience"}</small><h2>{ar ? "أرسل تقييمك" : "Submit a review"}</h2></div>
               </div>
-              <form className="review-form marketplace-review-form" action="/api/review.php" method="post">
+              <form className="review-form marketplace-review-form" action="/api/reviews" method="post">
                 <input type="hidden" name="teacher" value={`${teacher.name.en} (${teacher.slug})`} />
                 <input type="hidden" name="locale" value={locale} />
                 <div className="honeypot" aria-hidden="true"><label htmlFor={`review-website-${teacher.slug}-${locale}`}>Website</label><input id={`review-website-${teacher.slug}-${locale}`} name="website" type="text" tabIndex={-1} autoComplete="off" /></div>

@@ -3368,6 +3368,26 @@ footer {
   color: white;
 }
 
+.managed-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+}
+
+.managed-social-links:empty,
+.managed-social-links:not(:has(a:not([hidden]))) {
+  display: none;
+}
+
+.managed-social-links a {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 13px;
+}
+
+.managed-social-links a:hover {
+  color: white;
+}
+
 .footer-bottom {
   width: min(1250px, 100%);
   margin: 65px auto 0;

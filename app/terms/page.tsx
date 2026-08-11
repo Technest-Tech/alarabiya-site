@@ -31,7 +31,7 @@ export default function TermsPage() {
         </section>
         <section>
           <h2>Contact</h2>
-          <p>Questions may be sent to <a href="mailto:hello@alarabiyaacademy.com">hello@alarabiyaacademy.com</a>.</p>
+          <p>Questions may be sent to <a href="mailto:hello@alarabiyaacademy.com" data-site-setting="contact-email">hello@alarabiyaacademy.com</a>.</p>
         </section>
         <p className="legal-note">These starter terms should be reviewed for the academy&apos;s country, final pricing, cancellation policy, payment providers, and applicable laws before launch.</p>
       </article>

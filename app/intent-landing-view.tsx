@@ -213,12 +213,13 @@ export default function IntentLandingView({ landing }: { landing: IntentLanding 
             <span><Check /> No payment or commitment required</span>
           </div>
         </div>
-        <form className="enrollment-form intent-form" action="/api/enroll.php" method="post">
+        <form className="enrollment-form intent-form" action="/api/enroll" method="post">
           <div className="form-title">
             <span><CalendarCheck size={24} /></span>
             <div><strong>Request your free assessment</strong><small>We usually reply within one working day</small></div>
           </div>
           <input type="hidden" name="program" value={landing.programValue} />
+          <input type="hidden" name="locale" value="en" />
           <div className="honeypot" aria-hidden="true">
             <label htmlFor={`website-${landing.slug}`}>Website</label>
             <input id={`website-${landing.slug}`} name="website" type="text" tabIndex={-1} autoComplete="off" />

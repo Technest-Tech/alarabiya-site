@@ -103,7 +103,14 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <strong>{ar ? "ابدأ الآن" : "Get started"}</strong>
           <a href={`${home}#enroll`}>{ar ? "احجز حصة مجانية" : "Book a free lesson"}</a>
           <a href={`${home}#faq`}>{ar ? "الأسئلة الشائعة" : "Common questions"}</a>
-          <a href="mailto:hello@alarabiyaacademy.com" dir="ltr">hello@alarabiyaacademy.com</a>
+          <a href="mailto:hello@alarabiyaacademy.com" data-site-setting="contact-email" dir="ltr">hello@alarabiyaacademy.com</a>
+          <a href="#" data-site-setting="whatsapp" target="_blank" rel="noreferrer" dir="ltr" hidden>WhatsApp</a>
+          <div className="managed-social-links" aria-label={ar ? "وسائل التواصل الاجتماعي" : "Social media"}>
+            <a href="#" data-site-setting="facebook-url" target="_blank" rel="noreferrer" hidden>Facebook</a>
+            <a href="#" data-site-setting="instagram-url" target="_blank" rel="noreferrer" hidden>Instagram</a>
+            <a href="#" data-site-setting="youtube-url" target="_blank" rel="noreferrer" hidden>YouTube</a>
+            <a href="#" data-site-setting="tiktok-url" target="_blank" rel="noreferrer" hidden>TikTok</a>
+          </div>
         </div>
       </div>
       <div className="footer-bottom">

@@ -380,8 +380,9 @@ export default function ArabicHome() {
             <span><Check /> لا حاجة إلى الدفع</span>
           </div>
         </div>
-        <form className="enrollment-form" action="/api/enroll.php" method="post">
+        <form className="enrollment-form" action="/api/enroll" method="post">
           <div className="form-title"><span><CalendarCheck size={24} /></span><div><strong>احجز حصتك المجانية</strong><small>نرد عادة خلال يوم عمل واحد</small></div></div>
+          <input type="hidden" name="locale" value="ar" />
           <div className="honeypot" aria-hidden="true"><label htmlFor="website-ar">الموقع</label><input id="website-ar" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
           <div className="field-row">
             <label>الاسم<input name="name" type="text" placeholder="الاسم الكامل" autoComplete="name" required /></label>
@@ -426,7 +427,17 @@ export default function ArabicHome() {
           <div className="footer-brand"><Brand light /><p>تعلّم بوضوح.<br />وانمُ بالإيمان.</p></div>
           <div><strong>استكشف</strong><a href="#programs">البرامج</a><a href="#why-us">لماذا العربية؟</a><a href="#tutors">معلمونا</a><a href="#how-it-works">كيف نبدأ؟</a></div>
           <div><strong>البرامج</strong><a href="#programs">قراءة القرآن</a><a href="#programs">التجويد والحفظ</a><a href="#programs">اللغة العربية</a><a href="#programs">الدراسات الإسلامية</a></div>
-          <div><strong>ابدأ الآن</strong><a href="#enroll">احجز حصة مجانية</a><a href="#faq">الأسئلة الشائعة</a><a href="mailto:hello@alarabiyaacademy.com" dir="ltr">hello@alarabiyaacademy.com</a></div>
+          <div>
+            <strong>ابدأ الآن</strong><a href="#enroll">احجز حصة مجانية</a><a href="#faq">الأسئلة الشائعة</a>
+            <a href="mailto:hello@alarabiyaacademy.com" data-site-setting="contact-email" dir="ltr">hello@alarabiyaacademy.com</a>
+            <a href="#" data-site-setting="whatsapp" target="_blank" rel="noreferrer" dir="ltr" hidden>WhatsApp</a>
+            <div className="managed-social-links" aria-label="وسائل التواصل الاجتماعي">
+              <a href="#" data-site-setting="facebook-url" target="_blank" rel="noreferrer" hidden>Facebook</a>
+              <a href="#" data-site-setting="instagram-url" target="_blank" rel="noreferrer" hidden>Instagram</a>
+              <a href="#" data-site-setting="youtube-url" target="_blank" rel="noreferrer" hidden>YouTube</a>
+              <a href="#" data-site-setting="tiktok-url" target="_blank" rel="noreferrer" hidden>TikTok</a>
+            </div>
+          </div>
         </div>
         <div className="footer-bottom">
           <p>© {new Date().getFullYear()} أكاديمية العربية. جميع الحقوق محفوظة.</p>
