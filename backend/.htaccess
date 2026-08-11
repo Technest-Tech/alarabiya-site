@@ -9,6 +9,15 @@ Options -Indexes
 
     # Keep private Laravel files behind the public front controller on shared hosting.
     RewriteRule (^|/)\.(?!well-known(?:/|$)) - [F,L]
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(.*)$ public/$1 [L]
+
+    # Stop the root rules from processing requests already rewritten into public/.
+    RewriteRule ^public(?:/|$) - [L]
+
+    # Keep certificate-validation files available from the domain root.
+    RewriteRule ^\.well-known(?:/|$) - [L]
+
+    # Serve real public assets directly. Route pages, APIs, and Filament through Laravel.
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    RewriteRule ^(.+)$ public/$1 [L]
+    RewriteRule ^ public/index.php [L]
 </IfModule>

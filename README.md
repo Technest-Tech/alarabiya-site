@@ -59,6 +59,8 @@ npm run test:backend
 
 ## Hostinger shared-hosting deployment
 
+The live production inventory, update procedure, cache steps, verification checklist, backup process, and rollback runbook are documented in [`docs/HOSTINGER_DEPLOYMENT.md`](docs/HOSTINGER_DEPLOYMENT.md).
+
 Hostinger shared hosting supports Laravel 12 and Composer 2. Set the website to PHP 8.2 or newer and create a MySQL database and an email mailbox first.
 
 1. On your local machine, create the upload archive:
