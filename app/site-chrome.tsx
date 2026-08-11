@@ -26,7 +26,7 @@ export function SiteHeader({
       </div>
       <header className="site-header detail-site-header">
         <a className="brand" href={home} aria-label={ar ? "الصفحة الرئيسية لأكاديمية العربية" : "Alarabiya Academy home"}>
-          <img className="brand-logo" src="/logo.png" alt="" width="64" height="64" />
+          <img className="brand-logo" src="/logo-mark.webp" alt="" width="64" height="64" />
           <span className="brand-copy">
             <strong>ALARABIYA</strong>
             <small>{ar ? "أكاديمية القرآن واللغة العربية" : "Quran & Arabic Academy"}</small>
@@ -74,7 +74,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       <div className="footer-main">
         <div className="footer-brand">
           <a className="brand brand-light" href={home}>
-            <img className="brand-logo" src="/logo.png" alt="" width="64" height="64" />
+            <img className="brand-logo" src="/logo-mark.webp" alt="" width="64" height="64" />
             <span className="brand-copy"><strong>ALARABIYA</strong><small>{ar ? "أكاديمية القرآن واللغة العربية" : "Quran & Arabic Academy"}</small></span>
           </a>
           <p>{ar ? <>تعلّم بوضوح.<br />وانمُ بالإيمان.</> : <>Learn with clarity.<br />Grow with faith.</>}</p>

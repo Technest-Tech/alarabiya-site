@@ -39,6 +39,7 @@
 /public/terms
 /public/*.png
 /public/*.rsc
+/public/*.webp
 /public/*.webmanifest
 /public/*.xml
 /public/robots.txt

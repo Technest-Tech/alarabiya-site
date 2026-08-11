@@ -84,13 +84,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon-academy.ico?v=20260811-book", sizes: "any" },
-      { url: "/favicon-academy-32x32.png?v=20260811-book", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-academy-16x16.png?v=20260811-book", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-aa-v3.ico", sizes: "any" },
+      { url: "/favicon-aa-v3-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-aa-v3-16.png", sizes: "16x16", type: "image/png" },
     ],
-    shortcut: "/favicon-academy.ico?v=20260811-book",
+    shortcut: "/favicon-aa-v3.ico",
     apple: [
-      { url: "/apple-touch-icon.png?v=20260811-book", sizes: "180x180", type: "image/png" },
+      { url: "/apple-touch-icon.png?v=20260811-v3", sizes: "180x180", type: "image/png" },
     ],
   },
   manifest: "/site.webmanifest",

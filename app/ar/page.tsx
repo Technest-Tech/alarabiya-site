@@ -170,7 +170,7 @@ const faqs = [
 function Brand({ light = false }: { light?: boolean }) {
   return (
     <a className={`brand ${light ? "brand-light" : ""}`} href="#top" aria-label="الصفحة الرئيسية لأكاديمية العربية">
-      <img className="brand-logo" src="/logo.png" alt="" width="64" height="64" />
+      <img className="brand-logo" src="/logo-mark.webp" alt="" width="64" height="64" />
       <span className="brand-copy">
         <strong>ALARABIYA</strong>
         <small>أكاديمية القرآن واللغة العربية</small>
@@ -364,7 +364,7 @@ export default function ArabicHome() {
           <p className="section-kicker left-kicker"><span></span> وعدنا لكل أسرة</p>
           <blockquote>تعلّم بوضوح.<br />تدرّب بثقة.<br /><em>وانمُ بالإيمان.</em></blockquote>
           <p>كل حصة يجب أن تجعل الطالب يشعر بالقدرة والدعم والحماس لما سيأتي بعدها.</p>
-          <div className="promise-signature"><img src="/logo.png" alt="" width="54" height="54" /><div><strong>أكاديمية العربية</strong><span>تعليم القرآن والعربية أينما كنت</span></div></div>
+          <div className="promise-signature"><img src="/logo-mark.webp" alt="" width="54" height="54" loading="lazy" /><div><strong>أكاديمية العربية</strong><span>تعليم القرآن والعربية أينما كنت</span></div></div>
         </div>
       </section>
 

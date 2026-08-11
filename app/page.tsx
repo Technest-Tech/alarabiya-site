@@ -172,7 +172,7 @@ const faqs = [
 function Brand({ light = false }: { light?: boolean }) {
   return (
     <a className={`brand ${light ? "brand-light" : ""}`} href="#top" aria-label="Alarabiya Academy home">
-      <img className="brand-logo" src="/logo.png" alt="" width="64" height="64" />
+      <img className="brand-logo" src="/logo-mark.webp" alt="" width="64" height="64" />
       <span className="brand-copy">
         <strong>ALARABIYA</strong>
         <small>Quran & Arabic Academy</small>
@@ -489,7 +489,7 @@ export default function Home() {
           </blockquote>
           <p>Every lesson should leave the learner feeling capable, supported, and excited for what comes next.</p>
           <div className="promise-signature">
-            <img src="/logo.png" alt="" width="54" height="54" />
+            <img src="/logo-mark.webp" alt="" width="54" height="54" loading="lazy" />
             <div><strong>Alarabiya Academy</strong><span>Quran & Arabic education, wherever you are</span></div>
           </div>
         </div>

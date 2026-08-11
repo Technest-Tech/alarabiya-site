@@ -9,6 +9,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 - Initial Laravel deployment: August 11, 2026
 - Static-delivery and favicon optimization: August 11, 2026
 - Book-emblem favicon cache-bust: August 11, 2026
+- Critical-path and high-contrast favicon optimization: August 11, 2026
 - Git branch: `codex/laravel-filament`
 - Domain: `alrabiyaacademy.com`
 - Admin: `https://alrabiyaacademy.com/admin`
@@ -72,7 +73,12 @@ The production optimizations are designed for Hostinger shared hosting and requi
 - Public site settings are browser-cached for 30 seconds, edge-cached for 60 seconds, and may be served stale while they refresh.
 - The settings request is aborted after 2.5 seconds, leaving the static fallback contact details usable if PHP or MySQL is temporarily busy.
 - Generated pages do not eagerly preload every font file; fonts load only when the rendered CSS needs them.
-- The favicon set uses the academy's open-book emblem rather than shrinking the detailed circular logo, which can resemble the WordPress mark at 16px. It contains ICO, 16px, 32px, Apple touch, 192px, and 512px variants. The browser-facing files use distinct `favicon-academy` names and a version query so browsers cannot reuse an older favicon cache entry.
+- React hydration and its module graph begin after the static page's load event, keeping nonessential JavaScript out of the critical rendering path while preserving the placement quiz, motion, and managed settings.
+- Sections well below the first viewport use `content-visibility` so supported browsers skip their initial layout and paint work.
+- The displayed header logo uses a 160px WebP derivative of about 6 KB instead of preloading the original 80 KB source PNG.
+- The favicon is a high-contrast blue tile containing the academy's white and gold open-book emblem. ICO, 16px, 32px, Apple touch, 192px, and 512px variants are included. Browser-facing files use the unique `favicon-aa-v3` names so a browser cannot resolve them to an older favicon cache entry.
+
+In the same live browser environment, a cache-busted homepage navigation completed in approximately 1.1 seconds after this critical-path update, compared with approximately 9.5 seconds immediately before it. This is an operational sample rather than a universal performance guarantee; geography, device, and Hostinger edge load still affect results.
 
 Do not change HTML back to `no-store`: it makes every page view bypass the CDN and boot Laravel. When public contact or social settings change, the API cache expires automatically within one minute at the edge.
 

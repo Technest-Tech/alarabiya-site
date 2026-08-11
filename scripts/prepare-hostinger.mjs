@@ -14,6 +14,17 @@ const skippedPaths = new Set([
 ]);
 
 const fontPreloadPattern = /<link rel="preload" href="\/assets\/_vinext_fonts\/[^"]+\.woff2" as="font" type="font\/woff2" crossorigin\s*\/?>(?:\r?\n)?/g;
+const modulePreloadPattern = /<link rel="modulepreload"[^>]*\/?>(?:\r?\n)?/g;
+const bootstrapPattern = /<script id="_R_">import\("([^"]+)"\)<\/script>/;
+
+function optimizeHtml(html) {
+  return html
+    .replace(fontPreloadPattern, "")
+    .replace(modulePreloadPattern, "")
+    .replace(bootstrapPattern, (_, bootstrapPath) => (
+      `<script id="_R_">addEventListener("load",()=>{const hydrate=()=>import("${bootstrapPath}");"requestIdleCallback"in self?requestIdleCallback(hydrate,{timeout:1200}):setTimeout(hydrate,250)},{once:true})</script>`
+    ));
+}
 
 function isSafeRelativePath(file) {
   return Boolean(file) && !isAbsolute(file) && normalize(file) === file && !file.startsWith(`..${sep}`);
@@ -77,7 +88,7 @@ for (const source of sourceFiles) {
 
   if (sourceRelative.endsWith(".html")) {
     const html = await readFile(source, "utf8");
-    await writeFile(target, html.replace(fontPreloadPattern, ""));
+    await writeFile(target, optimizeHtml(html));
   } else {
     await copyFile(source, target);
   }

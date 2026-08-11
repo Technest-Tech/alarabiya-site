@@ -45,7 +45,7 @@
         Header always set Cache-Control "public, max-age=300, must-revalidate"
     </FilesMatch>
 
-    <FilesMatch "^(favicon\.(ico|png)|favicon-(16x16|32x32)\.png|favicon-academy(-16x16|-32x32)?\.(ico|png)|apple-touch-icon\.png|icon-(192|512)\.png)$">
+    <FilesMatch "^(favicon.*\.(ico|png)|apple-touch-icon\.png|icon-(192|512)\.png)$">
         Header always set Cache-Control "public, max-age=300, must-revalidate"
     </FilesMatch>
 

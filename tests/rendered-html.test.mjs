@@ -8,10 +8,10 @@ test("production homepage contains the academy conversion journey", async () => 
   const html = await readFile(new URL("dist/client/index.html", root), "utf8");
 
   assert.match(html, /<title>Online Quran &amp; Arabic Classes \| Alarabiya Academy<\/title>/);
-  assert.match(html, /\/logo\.png/);
-  assert.match(html, /\/favicon-academy\.ico\?v=20260811-book/);
-  assert.match(html, /\/favicon-academy-32x32\.png\?v=20260811-book/);
-  assert.match(html, /\/favicon-academy-16x16\.png\?v=20260811-book/);
+  assert.match(html, /\/logo-mark\.webp/);
+  assert.match(html, /\/favicon-aa-v3\.ico/);
+  assert.match(html, /\/favicon-aa-v3-32\.png/);
+  assert.match(html, /\/favicon-aa-v3-16\.png/);
   assert.match(html, /\/og-arabic-quran\.png/);
   assert.match(html, /\/images\/hero-family\.webp/);
   assert.match(html, /\/images\/student-learning\.webp/);
@@ -153,6 +153,7 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/sitemap.xml", root)),
     access(new URL("backend/public/og-arabic-quran.png", root)),
     access(new URL("backend/public/logo.png", root)),
+    access(new URL("backend/public/logo-mark.webp", root)),
     access(new URL("backend/public/images/hero-family.webp", root)),
     access(new URL("backend/public/images/hero-family-ar.webp", root)),
     access(new URL("backend/public/images/student-learning.webp", root)),
@@ -171,6 +172,9 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/favicon-academy.ico", root)),
     access(new URL("backend/public/favicon-academy-16x16.png", root)),
     access(new URL("backend/public/favicon-academy-32x32.png", root)),
+    access(new URL("backend/public/favicon-aa-v3.ico", root)),
+    access(new URL("backend/public/favicon-aa-v3-16.png", root)),
+    access(new URL("backend/public/favicon-aa-v3-32.png", root)),
     access(new URL("backend/public/apple-touch-icon.png", root)),
     access(new URL("backend/public/icon-192.png", root)),
     access(new URL("backend/public/icon-512.png", root)),
@@ -190,6 +194,9 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
   assert.match(rootHtaccess, /public\/site\/index\.html/);
   assert.match(rootHtaccess, /public\/\$1\/index\.html/);
   assert.doesNotMatch(preparedHome, /rel="preload"[^>]+woff2/);
+  assert.doesNotMatch(preparedHome, /rel="modulepreload"/);
+  assert.doesNotMatch(preparedHome, /<script id="_R_">import\(/);
+  assert.match(preparedHome, /requestIdleCallback/);
 });
 
 test("starter preview infrastructure is fully removed", async () => {
