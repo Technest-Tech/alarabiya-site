@@ -108,6 +108,8 @@ class SubmissionFlowTest extends TestCase
             ->assertJsonPath('contactEmail', 'contact@example.com')
             ->assertJsonPath('whatsappUrl', 'https://wa.me/201001234567?text=Assalamu%20alaikum%2C%20I%20would%20like%20to%20learn%20more%20about%20Alarabiya%20Academy.')
             ->assertJsonMissing(['notification_email' => 'private-inbox@example.com']);
+        $this->assertStringContainsString('max-age=30', (string) $response->headers->get('Cache-Control'));
+        $this->assertStringContainsString('s-maxage=60', (string) $response->headers->get('Cache-Control'));
         $this->assertStringNotContainsString('private-inbox', $response->getContent());
     }
 

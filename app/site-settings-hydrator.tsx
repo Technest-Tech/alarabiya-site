@@ -29,6 +29,7 @@ function updateLinks(selector: string, href: string | null, label?: string | nul
 export default function SiteSettingsHydrator() {
   useEffect(() => {
     const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 2500);
 
     fetch("/api/site-settings", {
       headers: { Accept: "application/json" },
@@ -57,9 +58,13 @@ export default function SiteSettingsHydrator() {
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         console.warn("Using the website's fallback contact details.");
-      });
+      })
+      .finally(() => window.clearTimeout(timeout));
 
-    return () => controller.abort();
+    return () => {
+      window.clearTimeout(timeout);
+      controller.abort();
+    };
   }, []);
 
   return null;

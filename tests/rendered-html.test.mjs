@@ -9,6 +9,7 @@ test("production homepage contains the academy conversion journey", async () => 
 
   assert.match(html, /<title>Online Quran &amp; Arabic Classes \| Alarabiya Academy<\/title>/);
   assert.match(html, /\/logo\.png/);
+  assert.match(html, /\/favicon\.ico\?v=20260811/);
   assert.match(html, /\/og-arabic-quran\.png/);
   assert.match(html, /\/images\/hero-family\.webp/);
   assert.match(html, /\/images\/student-learning\.webp/);
@@ -162,6 +163,12 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/images/teacher-ruqaya-badr.webp", root)),
     access(new URL("backend/public/images/teacher-mohamed-ebrahim.webp", root)),
     access(new URL("backend/public/favicon.png", root)),
+    access(new URL("backend/public/favicon.ico", root)),
+    access(new URL("backend/public/favicon-16x16.png", root)),
+    access(new URL("backend/public/favicon-32x32.png", root)),
+    access(new URL("backend/public/apple-touch-icon.png", root)),
+    access(new URL("backend/public/icon-192.png", root)),
+    access(new URL("backend/public/icon-512.png", root)),
     access(new URL("backend/public/ar/index.html", root)),
     access(new URL("backend/public/online-quran-classes/index.html", root)),
     access(new URL("backend/public/online-quran-classes-for-kids/index.html", root)),
@@ -172,6 +179,12 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/privacy/index.html", root)),
     access(new URL("backend/public/terms/index.html", root)),
   ]);
+
+  const rootHtaccess = await readFile(new URL("backend/.htaccess", root), "utf8");
+  const preparedHome = await readFile(new URL("backend/public/site/index.html", root), "utf8");
+  assert.match(rootHtaccess, /public\/site\/index\.html/);
+  assert.match(rootHtaccess, /public\/\$1\/index\.html/);
+  assert.doesNotMatch(preparedHome, /rel="preload"[^>]+woff2/);
 });
 
 test("starter preview infrastructure is fully removed", async () => {

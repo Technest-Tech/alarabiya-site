@@ -16,7 +16,13 @@ Options -Indexes
     # Keep certificate-validation files available from the domain root.
     RewriteRule ^\.well-known(?:/|$) - [L]
 
-    # Serve real public assets directly. Route pages, APIs, and Filament through Laravel.
+    # Serve the prebuilt homepage and clean static page routes without booting PHP.
+    RewriteRule ^$ public/site/index.html [L]
+
+    RewriteCond %{DOCUMENT_ROOT}/public/$1/index.html -f
+    RewriteRule ^(?!api(?:/|$)|admin(?:/|$)|livewire(?:/|$)|up$)(.+?)/?$ public/$1/index.html [L]
+
+    # Serve real public assets directly. Route APIs and Filament through Laravel.
     RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
     RewriteRule ^(.+)$ public/$1 [L]
     RewriteRule ^ public/index.php [L]

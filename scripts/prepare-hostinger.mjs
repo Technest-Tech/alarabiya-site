@@ -13,6 +13,8 @@ const skippedPaths = new Set([
   "_headers",
 ]);
 
+const fontPreloadPattern = /<link rel="preload" href="\/assets\/_vinext_fonts\/[^"]+\.woff2" as="font" type="font\/woff2" crossorigin\s*\/?>(?:\r?\n)?/g;
+
 function isSafeRelativePath(file) {
   return Boolean(file) && !isAbsolute(file) && normalize(file) === file && !file.startsWith(`..${sep}`);
 }
@@ -72,7 +74,14 @@ for (const source of sourceFiles) {
   const target = join(publicRoot, targetRelative);
 
   await mkdir(dirname(target), { recursive: true });
-  await copyFile(source, target);
+
+  if (sourceRelative.endsWith(".html")) {
+    const html = await readFile(source, "utf8");
+    await writeFile(target, html.replace(fontPreloadPattern, ""));
+  } else {
+    await copyFile(source, target);
+  }
+
   copiedFiles.push(targetRelative);
 }
 

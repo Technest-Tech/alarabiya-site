@@ -7,6 +7,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 ## Deployment record
 
 - Initial Laravel deployment: August 11, 2026
+- Static-delivery and favicon optimization: August 11, 2026
 - Git branch: `codex/laravel-filament`
 - Domain: `alrabiyaacademy.com`
 - Admin: `https://alrabiyaacademy.com/admin`
@@ -18,6 +19,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 - Production Node.js process: none
 - Queue worker: none; `QUEUE_CONNECTION=sync`
 - Verified final archive checksum (SHA-256): `ef2c7fa4f74187ba2a342912549d8fe5fee1fbbf5444a160cfa4cd79a5ac0587`
+- Verified performance-release archive checksum (SHA-256): `b03f497e224b722f2e58f0a517c2accd75c2fad0e0860655eecaee4e06870100`
 
 The initial Hostinger placeholder site was copied to:
 
@@ -37,11 +39,19 @@ The verified final deployment ZIP is retained outside the web root at:
 domains/alrabiyaacademy.com/alarabiya-deploy-20260811-final.zip
 ```
 
+The performance release, its pre-deployment backup, and its reproducible ZIP are retained at:
+
+```text
+domains/alrabiyaacademy.com/releases/20260811-1745-performance/
+domains/alrabiyaacademy.com/backups/public_html-before-performance-20260811-1745/
+domains/alrabiyaacademy.com/alarabiya-deploy-20260811-performance-final.zip
+```
+
 These locations are outside `public_html` and are not web-accessible.
 
 ## Production architecture
 
-The frontend is compiled locally into static HTML, CSS, JavaScript, fonts, and images. Laravel serves those generated pages and handles dynamic work:
+The frontend is compiled locally into static HTML, CSS, JavaScript, fonts, and images. Apache serves the generated pages and assets directly, while Laravel handles only dynamic work:
 
 - `/api/enroll` validates and stores student enrollment submissions.
 - `/api/reviews` validates and stores teacher reviews for moderation.
@@ -50,7 +60,20 @@ The frontend is compiled locally into static HTML, CSS, JavaScript, fonts, and i
 - MySQL stores users, sessions, cache entries, submissions, reviews, and site settings.
 - Email is synchronous, so no cron job, Redis server, or queue worker is required.
 
-Apache first reads the root `.htaccess`. Real files under Laravel's `public` directory are served directly; all other requests are routed through `public/index.php`. Private Laravel files and dotfiles remain inaccessible from the web.
+Apache first reads the root `.htaccess`. The homepage and prebuilt clean page routes are rewritten directly to their static HTML files, and real assets under Laravel's `public` directory are also served directly. Requests for `/api`, `/admin`, Livewire, and non-static fallbacks are routed through `public/index.php`. This keeps normal page views out of PHP and prevents unnecessary Laravel sessions while private Laravel files and dotfiles remain inaccessible from the web.
+
+## Performance and cache policy
+
+The production optimizations are designed for Hostinger shared hosting and require no Node.js process:
+
+- Prebuilt HTML is compressed by Apache and cached for five minutes with revalidation.
+- Hashed CSS and JavaScript retain long-lived caching; images are cached for one month.
+- Public site settings are browser-cached for 30 seconds, edge-cached for 60 seconds, and may be served stale while they refresh.
+- The settings request is aborted after 2.5 seconds, leaving the static fallback contact details usable if PHP or MySQL is temporarily busy.
+- Generated pages do not eagerly preload every font file; fonts load only when the rendered CSS needs them.
+- The favicon set contains ICO, 16px, 32px, Apple touch, 192px, and 512px variants cropped from the academy logo. The ICO link includes a version query to bypass the previously cached empty icon.
+
+Do not change HTML back to `no-store`: it makes every page view bypass the CDN and boot Laravel. When public contact or social settings change, the API cache expires automatically within one minute at the edge.
 
 ## Production filesystem
 
@@ -221,7 +244,7 @@ Do not run `php artisan key:generate` during a normal update. Replacing `APP_KEY
 
 ## Cache handling after deployment
 
-HTML responses use `no-cache, no-store`; versioned CSS, JavaScript, images, and fonts remain long-cache assets.
+Static HTML uses a five-minute revalidation policy. Versioned CSS and JavaScript remain long-cache assets, images use a one-month expiry, and favicon files revalidate after five minutes.
 
 After changing routes, redirects, or static files, clear both Hostinger cache layers:
 
