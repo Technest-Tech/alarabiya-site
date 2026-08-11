@@ -8,6 +8,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 
 - Initial Laravel deployment: August 11, 2026
 - Static-delivery and favicon optimization: August 11, 2026
+- Book-emblem favicon cache-bust: August 11, 2026
 - Git branch: `codex/laravel-filament`
 - Domain: `alrabiyaacademy.com`
 - Admin: `https://alrabiyaacademy.com/admin`
@@ -71,7 +72,7 @@ The production optimizations are designed for Hostinger shared hosting and requi
 - Public site settings are browser-cached for 30 seconds, edge-cached for 60 seconds, and may be served stale while they refresh.
 - The settings request is aborted after 2.5 seconds, leaving the static fallback contact details usable if PHP or MySQL is temporarily busy.
 - Generated pages do not eagerly preload every font file; fonts load only when the rendered CSS needs them.
-- The favicon set contains ICO, 16px, 32px, Apple touch, 192px, and 512px variants cropped from the academy logo. The ICO link includes a version query to bypass the previously cached empty icon.
+- The favicon set uses the academy's open-book emblem rather than shrinking the detailed circular logo, which can resemble the WordPress mark at 16px. It contains ICO, 16px, 32px, Apple touch, 192px, and 512px variants. The browser-facing files use distinct `favicon-academy` names and a version query so browsers cannot reuse an older favicon cache entry.
 
 Do not change HTML back to `no-store`: it makes every page view bypass the CDN and boot Laravel. When public contact or social settings change, the API cache expires automatically within one minute at the edge.
 

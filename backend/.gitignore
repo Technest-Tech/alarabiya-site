@@ -19,7 +19,7 @@
 /public/hot
 /public/js/filament
 /public/storage
-/public/favicon.ico
+/public/*.ico
 /public/.vite
 /public/404.html
 /public/_headers

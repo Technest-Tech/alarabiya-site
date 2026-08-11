@@ -9,7 +9,9 @@ test("production homepage contains the academy conversion journey", async () => 
 
   assert.match(html, /<title>Online Quran &amp; Arabic Classes \| Alarabiya Academy<\/title>/);
   assert.match(html, /\/logo\.png/);
-  assert.match(html, /\/favicon\.ico\?v=20260811/);
+  assert.match(html, /\/favicon-academy\.ico\?v=20260811-book/);
+  assert.match(html, /\/favicon-academy-32x32\.png\?v=20260811-book/);
+  assert.match(html, /\/favicon-academy-16x16\.png\?v=20260811-book/);
   assert.match(html, /\/og-arabic-quran\.png/);
   assert.match(html, /\/images\/hero-family\.webp/);
   assert.match(html, /\/images\/student-learning\.webp/);
@@ -166,6 +168,9 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/favicon.ico", root)),
     access(new URL("backend/public/favicon-16x16.png", root)),
     access(new URL("backend/public/favicon-32x32.png", root)),
+    access(new URL("backend/public/favicon-academy.ico", root)),
+    access(new URL("backend/public/favicon-academy-16x16.png", root)),
+    access(new URL("backend/public/favicon-academy-32x32.png", root)),
     access(new URL("backend/public/apple-touch-icon.png", root)),
     access(new URL("backend/public/icon-192.png", root)),
     access(new URL("backend/public/icon-512.png", root)),
