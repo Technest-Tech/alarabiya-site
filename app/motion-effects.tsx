@@ -27,9 +27,34 @@ export default function MotionEffects() {
   useEffect(() => {
     const root = document.documentElement;
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const mobileMenus = Array.from(
+      document.querySelectorAll<HTMLDetailsElement>(".mobile-menu")
+    );
+    const mobileMenuLinks = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>(".mobile-menu nav a")
+    );
     const elements = Array.from(
       document.querySelectorAll<HTMLElement>(revealSelectors.join(","))
     );
+
+    const closeMobileMenus = () => {
+      mobileMenus.forEach((menu) => menu.removeAttribute("open"));
+    };
+    const handleKeydown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") closeMobileMenus();
+    };
+    const handleResize = () => {
+      if (window.innerWidth > 1120) closeMobileMenus();
+    };
+    const removeMobileMenuListeners = () => {
+      mobileMenuLinks.forEach((link) => link.removeEventListener("click", closeMobileMenus));
+      document.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("resize", handleResize);
+    };
+
+    mobileMenuLinks.forEach((link) => link.addEventListener("click", closeMobileMenus));
+    document.addEventListener("keydown", handleKeydown);
+    window.addEventListener("resize", handleResize);
 
     root.classList.add("motion-ready");
     elements.forEach((element, index) => {
@@ -39,7 +64,10 @@ export default function MotionEffects() {
 
     if (reduceMotion || !("IntersectionObserver" in window)) {
       elements.forEach((element) => element.classList.add("is-visible"));
-      return () => root.classList.remove("motion-ready");
+      return () => {
+        removeMobileMenuListeners();
+        root.classList.remove("motion-ready");
+      };
     }
 
     const observer = new IntersectionObserver(
@@ -57,6 +85,7 @@ export default function MotionEffects() {
 
     return () => {
       observer.disconnect();
+      removeMobileMenuListeners();
       root.classList.remove("motion-ready");
     };
   }, []);

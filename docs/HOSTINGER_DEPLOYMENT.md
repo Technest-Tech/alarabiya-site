@@ -10,6 +10,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 - Static-delivery and favicon optimization: August 11, 2026
 - Book-emblem favicon cache-bust: August 11, 2026
 - Critical-path and high-contrast favicon optimization: August 11, 2026
+- Mobile-first navigation and enrollment redesign: August 12, 2026
 - Git branch: `codex/laravel-filament`
 - Domain: `alrabiyaacademy.com`
 - Admin: `https://alrabiyaacademy.com/admin`
@@ -79,6 +80,18 @@ The production optimizations are designed for Hostinger shared hosting and requi
 - The favicon is a high-contrast blue tile containing the academy's white and gold open-book emblem. ICO, 16px, 32px, Apple touch, 192px, and 512px variants are included. Browser-facing files use the unique `favicon-aa-v3` names so a browser cannot resolve them to an older favicon cache entry.
 
 In the same live browser environment, a cache-busted homepage navigation completed in approximately 1.1 seconds after this critical-path update, compared with approximately 9.5 seconds immediately before it. This is an operational sample rather than a universal performance guarantee; geography, device, and Hostinger edge load still affect results.
+
+## Mobile experience
+
+The production frontend is designed around phone traffic first:
+
+- At 720px and below, the header uses a compact 68px layout with an always-visible English/Arabic switcher and a separate 42px menu control.
+- The mobile menu opens as a rounded navigation sheet immediately below the sticky header. It has large touch rows, equal viewport margins, a full-width language control, and a primary free-trial action.
+- Selecting any mobile navigation link closes the sheet. Escape also closes it, and resizing back to desktop clears stale open-menu state.
+- The top enrollment notice becomes a single-line action on phones instead of wrapping into a tall bar.
+- Enrollment anchors land eight pixels below the sticky header without a slow full-page animated scroll.
+- The enrollment introduction uses three compact benefit cards. Form controls are 52px high with 16px input text to prevent automatic iPhone zoom, and the consent checkbox and submit action have larger touch targets.
+- The English and RTL Arabic layouts were verified against the live domain at 360×800 and 390×844. Both had zero horizontal overflow, non-overlapping header controls, an aligned menu sheet, and a responsive enrollment form.
 
 Do not change HTML back to `no-store`: it makes every page view bypass the CDN and boot Laravel. When public contact or social settings change, the API cache expires automatically within one minute at the edge.
 

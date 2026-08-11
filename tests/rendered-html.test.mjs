@@ -207,3 +207,18 @@ test("starter preview infrastructure is fully removed", async () => {
   assert.doesNotMatch(page, /SkeletonPreview|_sites-preview/);
   await assert.rejects(access(new URL("app/_sites-preview/SkeletonPreview.tsx", root)));
 });
+
+test("mobile navigation and enrollment stay touch-friendly", async () => {
+  const [css, motionEffects] = await Promise.all([
+    readFile(new URL("app/globals.css", root), "utf8"),
+    readFile(new URL("app/motion-effects.tsx", root), "utf8"),
+  ]);
+
+  assert.match(css, /\.mobile-menu nav\s*\{[^}]*position: absolute/);
+  assert.match(css, /\.site-header\s*\{[^}]*height: 68px/);
+  assert.match(css, /\.enroll-benefits\s*\{[^}]*grid-template-columns: repeat\(3/);
+  assert.match(css, /font-size: 16px/);
+  assert.match(css, /scroll-behavior: auto/);
+  assert.match(motionEffects, /mobileMenuLinks/);
+  assert.match(motionEffects, /event\.key === "Escape"/);
+});
