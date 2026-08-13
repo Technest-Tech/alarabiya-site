@@ -7,6 +7,7 @@ use App\Mail\NewReviewSubmission;
 use App\Models\EnrollmentSubmission;
 use App\Models\ReviewSubmission;
 use App\Models\SiteSetting;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Mail;
@@ -30,13 +31,12 @@ class SubmissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'name' => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email:rfc', 'max:160'],
+            'email' => ['nullable', 'email:rfc', 'max:160'],
             'phone' => ['required', 'string', 'max:40'],
             'age' => ['required', 'string', 'max:60'],
-            'program' => ['required', 'string', 'max:120'],
+            'program' => ['nullable', 'string', 'max:120'],
             'message' => ['nullable', 'string', 'max:2000'],
             'locale' => ['nullable', 'in:en,ar'],
-            'consent' => ['accepted'],
         ]);
 
         if ($validator->fails()) {
@@ -54,17 +54,17 @@ class SubmissionController extends Controller
         $data = $validator->validated();
         $submission = EnrollmentSubmission::query()->create([
             'name' => $data['name'],
-            'email' => $data['email'],
+            'email' => $data['email'] ?? '',
             'phone' => $data['phone'],
             'age_group' => $data['age'],
-            'program' => $data['program'],
+            'program' => $data['program'] ?? ($arabic ? 'طلب حصة مجانية' : 'Free lesson request'),
             'message' => $data['message'] ?? null,
             'locale' => $data['locale'] ?? 'en',
             'status' => 'new',
             'source_url' => $request->headers->get('referer'),
             'ip_address' => $request->ip(),
             'user_agent' => str($request->userAgent())->limit(1000)->toString(),
-            'consented_at' => now(),
+            'consented_at' => null,
         ]);
 
         $this->sendEnrollmentNotification($submission);
@@ -93,7 +93,8 @@ class SubmissionController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'teacher' => ['required', 'string', 'max:160'],
+            'teacher_slug' => ['nullable', 'string', 'max:120', 'exists:teachers,slug'],
+            'teacher' => ['nullable', 'string', 'max:160', 'required_without:teacher_slug'],
             'name' => ['required', 'string', 'max:100'],
             'rating' => ['required', 'integer', 'between:1,5'],
             'review' => ['required', 'string', 'min:30', 'max:1500'],
@@ -113,8 +114,23 @@ class SubmissionController extends Controller
         }
 
         $data = $validator->validated();
+        $teacher = filled($data['teacher_slug'] ?? null)
+            ? Teacher::query()->published()->where('slug', $data['teacher_slug'])->first()
+            : null;
+
+        if (filled($data['teacher_slug'] ?? null) && ! $teacher) {
+            return $this->result(
+                $arabic ? 'المعلم غير متاح' : 'Teacher unavailable',
+                $arabic ? 'يرجى اختيار معلم متاح والمحاولة مرة أخرى.' : 'Please choose an available teacher and try again.',
+                false,
+                $arabic,
+                422,
+            );
+        }
+
         $submission = ReviewSubmission::query()->create([
-            'teacher' => $data['teacher'],
+            'teacher_id' => $teacher?->getKey(),
+            'teacher' => $teacher ? "{$teacher->name_en} ({$teacher->slug})" : $data['teacher'],
             'reviewer_name' => $data['name'],
             'rating' => $data['rating'],
             'review' => $data['review'],

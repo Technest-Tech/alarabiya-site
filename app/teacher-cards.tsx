@@ -1,10 +1,29 @@
+"use client";
+
 import { ArrowLeft, ArrowRight, BookOpen, Check, Languages, Sparkles } from "lucide-react";
-import { teachers, type Locale } from "./site-data";
+import { useEffect, useState } from "react";
+import { teachers as fallbackTeachers, type Locale, type TeacherProfile } from "./site-data";
 
 export default function TeacherCards({ locale }: { locale: Locale }) {
   const ar = locale === "ar";
   const Arrow = ar ? ArrowLeft : ArrowRight;
   const base = ar ? "/ar/teachers" : "/teachers";
+  const [teachers, setTeachers] = useState<TeacherProfile[]>(fallbackTeachers);
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/teachers", { headers: { Accept: "application/json" }, signal: controller.signal })
+      .then((response) => response.ok ? response.json() : Promise.reject(new Error("Teacher request failed")))
+      .then((profiles: TeacherProfile[]) => setTeachers(profiles))
+      .catch((error: unknown) => {
+        if (!(error instanceof DOMException && error.name === "AbortError")) {
+          console.warn("Managed teachers are temporarily unavailable; showing the published fallback profiles.");
+        }
+      });
+
+    return () => controller.abort();
+  }, []);
 
   return (
     <section className="teacher-cards-section" id="teacher-profiles">
@@ -19,7 +38,7 @@ export default function TeacherCards({ locale }: { locale: Locale }) {
           <article className="teacher-profile-card" key={teacher.slug}>
             <a className="teacher-card-photo" href={`${base}/${teacher.slug}/`} aria-label={`${ar ? "عرض ملف" : "View profile for"} ${teacher.name[locale]}`}>
               <img src={teacher.image} alt={`${teacher.name[locale]} — ${teacher.role[locale]}`} width="960" height="1200" loading="lazy" />
-              <span className="teacher-number">0{index + 1}</span>
+              <span className="teacher-number">{String(index + 1).padStart(2, "0")}</span>
               <span className="teacher-availability"><i></i>{ar ? "فريق الأكاديمية" : "Academy teacher"}</span>
             </a>
             <div className="teacher-card-body">

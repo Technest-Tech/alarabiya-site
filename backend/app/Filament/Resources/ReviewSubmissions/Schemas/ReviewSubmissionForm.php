@@ -17,17 +17,25 @@ class ReviewSubmissionForm
             ->components([
                 Section::make('Review details')
                     ->schema([
-                        TextInput::make('teacher')->disabled(),
-                        TextInput::make('reviewer_name')->label('Reviewer')->disabled(),
-                        TextInput::make('rating')->suffix('/ 5')->disabled(),
-                        TextInput::make('locale')->label('Language')->disabled(),
-                        Textarea::make('review')->disabled()->rows(7)->columnSpanFull(),
+                        Select::make('teacher_id')
+                            ->label('Teacher')
+                            ->relationship('teacherRecord', 'name_en')
+                            ->searchable()
+                            ->preload()
+                            ->required(),
+                        TextInput::make('reviewer_name')->label('Reviewer')->required()->maxLength(100),
+                        TextInput::make('reviewer_relationship')->label('Learner / relationship')->maxLength(160),
+                        TextInput::make('reviewer_location')->label('Location')->maxLength(160),
+                        Select::make('rating')->options([5 => '5 stars', 4 => '4 stars', 3 => '3 stars', 2 => '2 stars', 1 => '1 star'])->required(),
+                        Select::make('locale')->label('Language')->options(['en' => 'English', 'ar' => 'Arabic'])->required(),
+                        Textarea::make('review')->required()->minLength(30)->maxLength(1500)->rows(7)->columnSpanFull(),
                     ])
                     ->columns(2),
                 Section::make('Moderation')
                     ->schema([
                         Select::make('status')
                             ->options(ReviewSubmission::STATUS_OPTIONS)
+                            ->default('approved')
                             ->required(),
                         Textarea::make('admin_notes')->label('Private notes')->rows(4)->columnSpanFull(),
                     ]),

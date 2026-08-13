@@ -28,8 +28,12 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->brandName('Alarabiya Academy')
+            ->brandLogo(asset('logo-mark.webp'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('favicon.ico'))
             ->colors([
-                'primary' => Color::Blue,
+                'primary' => Color::hex('#0878c9'),
+                'warning' => Color::hex('#f7b718'),
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')

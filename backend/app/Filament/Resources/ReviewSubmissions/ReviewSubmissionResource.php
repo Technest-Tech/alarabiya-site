@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ReviewSubmissions;
 
+use App\Filament\Resources\ReviewSubmissions\Pages\CreateReviewSubmission;
 use App\Filament\Resources\ReviewSubmissions\Pages\EditReviewSubmission;
 use App\Filament\Resources\ReviewSubmissions\Pages\ListReviewSubmissions;
 use App\Filament\Resources\ReviewSubmissions\Pages\ViewReviewSubmission;
@@ -21,7 +22,11 @@ class ReviewSubmissionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedStar;
 
-    protected static ?string $navigationLabel = 'Teacher reviews';
+    protected static ?string $navigationLabel = 'Feedback';
+
+    protected static ?string $modelLabel = 'feedback';
+
+    protected static ?string $pluralModelLabel = 'Feedback';
 
     protected static ?string $recordTitleAttribute = 'reviewer_name';
 
@@ -37,11 +42,6 @@ class ReviewSubmissionResource extends Resource
     public static function getNavigationBadgeColor(): ?string
     {
         return 'warning';
-    }
-
-    public static function canCreate(): bool
-    {
-        return false;
     }
 
     public static function form(Schema $schema): Schema
@@ -70,6 +70,7 @@ class ReviewSubmissionResource extends Resource
     {
         return [
             'index' => ListReviewSubmissions::route('/'),
+            'create' => CreateReviewSubmission::route('/create'),
             'view' => ViewReviewSubmission::route('/{record}'),
             'edit' => EditReviewSubmission::route('/{record}/edit'),
         ];

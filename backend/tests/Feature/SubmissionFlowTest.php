@@ -6,6 +6,7 @@ use App\Mail\NewEnrollmentSubmission;
 use App\Mail\NewReviewSubmission;
 use App\Models\EnrollmentSubmission;
 use App\Models\SiteSetting;
+use App\Models\Teacher;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -25,24 +26,21 @@ class SubmissionFlowTest extends TestCase
 
         $response = $this->post('/api/enroll', [
             'name' => 'Amina Hassan',
-            'email' => 'amina@example.com',
             'phone' => '+20 100 123 4567',
             'age' => '9–12 years',
-            'program' => 'Quran Reading',
-            'message' => 'I would like an evening lesson.',
             'locale' => 'en',
-            'consent' => 'yes',
             'website' => '',
         ]);
 
         $response->assertOk()->assertSee('Your first step is complete');
         $this->assertDatabaseHas('enrollment_submissions', [
-            'email' => 'amina@example.com',
-            'program' => 'Quran Reading',
+            'name' => 'Amina Hassan',
+            'phone' => '+20 100 123 4567',
+            'age_group' => '9–12 years',
             'status' => 'new',
         ]);
         $this->assertNotNull(EnrollmentSubmission::query()->firstOrFail()->emailed_at);
-        Mail::assertSent(NewEnrollmentSubmission::class, fn (NewEnrollmentSubmission $mail): bool => $mail->hasTo('admissions@example.com') && $mail->submission->email === 'amina@example.com'
+        Mail::assertSent(NewEnrollmentSubmission::class, fn (NewEnrollmentSubmission $mail): bool => $mail->hasTo('admissions@example.com') && $mail->submission->phone === '+20 100 123 4567'
         );
     }
 
@@ -74,7 +72,7 @@ class SubmissionFlowTest extends TestCase
         SiteSetting::query()->create(SiteSetting::defaults());
 
         $response = $this->post('/api/reviews', [
-            'teacher' => 'Mohamed Samy (mohamed-samy)',
+            'teacher_slug' => 'mohamed-samy',
             'name' => 'Yusuf Ali',
             'rating' => 5,
             'review' => 'The lessons were clear, patient, and very helpful for my recitation.',
@@ -113,6 +111,28 @@ class SubmissionFlowTest extends TestCase
         $this->assertStringNotContainsString('private-inbox', $response->getContent());
     }
 
+    public function test_public_teacher_api_exposes_only_active_managed_profiles_and_approved_reviews(): void
+    {
+        $hiddenTeacher = Teacher::query()->create([
+            'slug' => 'hidden-teacher',
+            'name_en' => 'Hidden Teacher',
+            'name_ar' => 'معلم مخفي',
+            'role_en' => 'Teacher',
+            'role_ar' => 'معلم',
+            'short_bio_en' => 'Hidden profile.',
+            'short_bio_ar' => 'ملف مخفي.',
+            'is_active' => false,
+        ]);
+
+        $response = $this->getJson('/api/teachers');
+
+        $response->assertOk()->assertJsonFragment(['slug' => 'mohamed-samy']);
+        $response->assertJsonMissing(['slug' => $hiddenTeacher->slug]);
+        $this->assertSame('approved', Teacher::query()->where('slug', 'mohamed-samy')->firstOrFail()->approvedReviews()->firstOrFail()->status);
+        $this->get('/teachers/mohamed-samy')->assertOk()->assertSee('Mohamed Samy')->assertSee('Learner &amp; family feedback', false);
+        $this->get('/ar/teachers/mohamed-samy')->assertOk()->assertSee('محمد سامي')->assertSee('آراء الطلاب والأسر');
+    }
+
     public function test_admin_requires_authentication(): void
     {
         $this->get('/admin')->assertRedirect('/admin/login');
@@ -126,6 +146,10 @@ class SubmissionFlowTest extends TestCase
         $this->actingAs($user)->get('/admin')->assertOk();
         $this->actingAs($user)->get('/admin/enrollment-submissions')->assertOk();
         $this->actingAs($user)->get('/admin/review-submissions')->assertOk();
+        $this->actingAs($user)->get('/admin/teachers')->assertOk();
+        $this->actingAs($user)->get('/admin/teachers/create')->assertOk();
+        $this->actingAs($user)->get('/admin/teachers/'.Teacher::query()->firstOrFail()->slug.'/edit')->assertOk();
+        $this->actingAs($user)->get('/admin/review-submissions/create')->assertOk();
         $this->actingAs($user)->get("/admin/site-settings/{$settings->getKey()}/edit")->assertOk();
     }
 }

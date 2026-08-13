@@ -6,6 +6,9 @@
     RewriteEngine On
     DirectoryIndex index.php index.html
 
+    # Teacher profiles are database-managed, including slugs that do not exist in the static export.
+    RewriteRule ^(?:ar/)?teachers/[^/]+/?$ index.php [L,QSA]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\TeacherPageController;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/teachers/{teacher:slug}', [TeacherPageController::class, 'english']);
+Route::get('/ar/teachers/{teacher:slug}', [TeacherPageController::class, 'arabic']);
 
 Route::get('/', function () {
     $file = public_path('site/index.html');

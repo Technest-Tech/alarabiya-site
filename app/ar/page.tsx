@@ -386,10 +386,6 @@ export default function ArabicHome() {
           <div className="honeypot" aria-hidden="true"><label htmlFor="website-ar">الموقع</label><input id="website-ar" name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
           <div className="field-row">
             <label>الاسم<input name="name" type="text" placeholder="الاسم الكامل" autoComplete="name" required /></label>
-            <label>البريد الإلكتروني<input name="email" type="email" placeholder="you@example.com" autoComplete="email" required dir="ltr" /></label>
-          </div>
-          <div className="field-row">
-            <label>رقم واتساب<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required dir="ltr" /></label>
             <label>عمر الطالب
               <select name="age" defaultValue="" required>
                 <option value="" disabled>اختر الفئة العمرية</option>
@@ -397,14 +393,7 @@ export default function ArabicHome() {
               </select>
             </label>
           </div>
-          <label>البرنامج المطلوب
-            <select name="program" defaultValue="" required>
-              <option value="" disabled>اختر برنامجاً تعليمياً</option>
-              <option>قراءة القرآن</option><option>التجويد والحفظ</option><option>اللغة العربية</option><option>اللغة العربية والقرآن</option><option>الدراسات الإسلامية</option><option>ساعدني على الاختيار</option>
-            </select>
-          </label>
-          <label>أهداف التعلم <span>(اختياري)</span><textarea name="message" rows={3} placeholder="المستوى الحالي، الأهداف، المواعيد المناسبة..."></textarea></label>
-          <label className="consent"><input type="checkbox" name="consent" value="yes" required /><span>أوافق على التواصل معي بخصوص الحصة المجانية وبرامج الأكاديمية.</span></label>
+          <label>رقم واتساب<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required dir="ltr" /></label>
           <button className="button button-gold form-submit" type="submit">أطلب حصتي المجانية <ArrowLeft size={18} /></button>
         </form>
       </section>

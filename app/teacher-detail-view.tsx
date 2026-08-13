@@ -132,7 +132,7 @@ export default function TeacherDetailView({ teacher, locale }: { teacher: Teache
             </section>
 
             {teacher.reviews.length > 0 && (
-              <section className="marketplace-section" id="reviews">
+              <section className="marketplace-section marketplace-feedback-showcase" id="reviews">
                 <div className="marketplace-section-heading marketplace-review-heading">
                   <span><MessageCircle /></span>
                   <div><small>{ar ? "آراء الطلاب والأسر" : "Learner & family feedback"}</small><h2>{averageRating.toFixed(1)} · {teacher.reviews.length} {ar ? "تقييمات منشورة" : "published reviews"}</h2></div>
@@ -159,7 +159,7 @@ export default function TeacherDetailView({ teacher, locale }: { teacher: Teache
                 <div><small>{ar ? "شارك تجربتك" : "Share your experience"}</small><h2>{ar ? "أرسل تقييمك" : "Submit a review"}</h2></div>
               </div>
               <form className="review-form marketplace-review-form" action="/api/reviews" method="post">
-                <input type="hidden" name="teacher" value={`${teacher.name.en} (${teacher.slug})`} />
+                <input type="hidden" name="teacher_slug" value={teacher.slug} />
                 <input type="hidden" name="locale" value={locale} />
                 <div className="honeypot" aria-hidden="true"><label htmlFor={`review-website-${teacher.slug}-${locale}`}>Website</label><input id={`review-website-${teacher.slug}-${locale}`} name="website" type="text" tabIndex={-1} autoComplete="off" /></div>
                 <label>{ar ? "الاسم" : "Your name"}<input name="name" type="text" placeholder={ar ? "الاسم الكامل" : "Full name"} autoComplete="name" maxLength={100} required /></label>

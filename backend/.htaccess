@@ -16,6 +16,9 @@ Options -Indexes
     # Keep certificate-validation files available from the domain root.
     RewriteRule ^\.well-known(?:/|$) - [L]
 
+    # Teacher profiles are database-managed and must never fall back to stale exported HTML.
+    RewriteRule ^(?:ar/)?teachers/[^/]+/?$ public/index.php [L,QSA]
+
     # Serve the prebuilt homepage and clean static page routes without booting PHP.
     RewriteRule ^$ public/site/index.html [L]
 

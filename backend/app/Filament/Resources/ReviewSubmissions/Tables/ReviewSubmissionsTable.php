@@ -16,10 +16,10 @@ class ReviewSubmissionsTable
     {
         return $table
             ->columns([
-                TextColumn::make('teacher')->searchable()->sortable()->wrap(),
+                TextColumn::make('teacherRecord.name_en')->label('Teacher')->searchable()->sortable()->wrap()->weight('bold'),
                 TextColumn::make('reviewer_name')->label('Reviewer')->searchable(),
-                TextColumn::make('rating')->suffix('/5')->sortable(),
-                TextColumn::make('review')->limit(55)->wrap()->toggleable(),
+                TextColumn::make('rating')->formatStateUsing(fn (int $state): string => str_repeat('★', $state))->color('warning')->sortable(),
+                TextColumn::make('review')->limit(55)->wrap()->toggleable(isToggledHiddenByDefault: true),
                 SelectColumn::make('status')
                     ->options(ReviewSubmission::STATUS_OPTIONS)
                     ->rules(['required']),

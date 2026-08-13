@@ -9,6 +9,7 @@ export type TeacherReview = {
 };
 
 export type TeacherProfile = {
+  id?: number;
   slug: string;
   image: string;
   name: Record<Locale, string>;

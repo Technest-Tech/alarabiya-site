@@ -18,10 +18,10 @@ class EnrollmentSubmissionForm
                 Section::make('Student details')
                     ->schema([
                         TextInput::make('name')->disabled(),
-                        TextInput::make('email')->email()->disabled(),
                         TextInput::make('phone')->label('WhatsApp')->disabled(),
-                        TextInput::make('age_group')->disabled(),
-                        TextInput::make('program')->disabled(),
+                        TextInput::make('age_group')->label('Age')->disabled(),
+                        TextInput::make('program')->label('Source / program')->disabled(),
+                        TextInput::make('email')->email()->disabled(),
                         TextInput::make('locale')->label('Language')->disabled(),
                         Textarea::make('message')
                             ->label('Learning goals')

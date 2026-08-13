@@ -226,10 +226,6 @@ export default function IntentLandingView({ landing }: { landing: IntentLanding 
           </div>
           <div className="field-row">
             <label>Your name<input name="name" type="text" placeholder="Full name" autoComplete="name" required /></label>
-            <label>Email address<input name="email" type="email" placeholder="you@example.com" autoComplete="email" required /></label>
-          </div>
-          <div className="field-row">
-            <label>WhatsApp number<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required /></label>
             <label>Learner&apos;s age
               <select name="age" defaultValue="" required>
                 <option value="" disabled>Select age group</option>
@@ -238,13 +234,7 @@ export default function IntentLandingView({ landing }: { landing: IntentLanding 
               </select>
             </label>
           </div>
-          <label>Learning goals <span>(optional)</span>
-            <textarea name="message" rows={3} placeholder="Current level, goals, tutor preference, suitable times..."></textarea>
-          </label>
-          <label className="consent">
-            <input type="checkbox" name="consent" value="yes" required />
-            <span>I agree to be contacted about my free assessment and academy programs.</span>
-          </label>
+          <label>WhatsApp number<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required /></label>
           <button className="button button-gold form-submit" type="submit">
             Request my free assessment <ArrowRight size={18} />
           </button>

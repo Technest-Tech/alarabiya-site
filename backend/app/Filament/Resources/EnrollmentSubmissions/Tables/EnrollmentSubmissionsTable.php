@@ -17,9 +17,10 @@ class EnrollmentSubmissionsTable
         return $table
             ->columns([
                 TextColumn::make('name')->searchable()->sortable()->weight('medium'),
-                TextColumn::make('email')->searchable()->copyable()->toggleable(),
                 TextColumn::make('phone')->label('WhatsApp')->searchable()->copyable(),
-                TextColumn::make('program')->badge()->color('info')->searchable(),
+                TextColumn::make('age_group')->label('Age')->badge()->color('warning')->sortable(),
+                TextColumn::make('program')->label('Source / program')->badge()->color('info')->searchable()->toggleable(),
+                TextColumn::make('email')->searchable()->copyable()->toggleable(isToggledHiddenByDefault: true),
                 SelectColumn::make('status')
                     ->options(EnrollmentSubmission::STATUS_OPTIONS)
                     ->rules(['required']),
@@ -27,12 +28,6 @@ class EnrollmentSubmissionsTable
             ])
             ->filters([
                 SelectFilter::make('status')->options(EnrollmentSubmission::STATUS_OPTIONS),
-                SelectFilter::make('program')->options(fn (): array => EnrollmentSubmission::query()
-                    ->whereNotNull('program')
-                    ->distinct()
-                    ->orderBy('program')
-                    ->pluck('program', 'program')
-                    ->all()),
             ])
             ->defaultSort('created_at', 'desc')
             ->recordActions([

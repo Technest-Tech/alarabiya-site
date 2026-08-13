@@ -519,10 +519,6 @@ export default function Home() {
           </div>
           <div className="field-row">
             <label>Your name<input name="name" type="text" placeholder="Full name" autoComplete="name" required /></label>
-            <label>Email address<input name="email" type="email" placeholder="you@example.com" autoComplete="email" required /></label>
-          </div>
-          <div className="field-row">
-            <label>WhatsApp number<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required /></label>
             <label>Learner&apos;s age
               <select name="age" defaultValue="" required>
                 <option value="" disabled>Select age group</option>
@@ -531,21 +527,7 @@ export default function Home() {
               </select>
             </label>
           </div>
-          <label>I&apos;m interested in
-            <select name="program" defaultValue="" required>
-              <option value="" disabled>Choose a learning program</option>
-              <option>Quran Reading</option><option>Tajweed & Hifz</option>
-              <option>Arabic Language</option><option>Arabic & Quran</option><option>Islamic Studies</option>
-              <option>Help me choose</option>
-            </select>
-          </label>
-          <label>Learning goals <span>(optional)</span>
-            <textarea name="message" rows={3} placeholder="Current level, goals, preferred schedule..."></textarea>
-          </label>
-          <label className="consent">
-            <input type="checkbox" name="consent" value="yes" required />
-            <span>I agree to be contacted about my free lesson and academy programs.</span>
-          </label>
+          <label>WhatsApp number<input name="phone" type="tel" placeholder="+1 234 567 890" autoComplete="tel" required /></label>
           <button className="button button-gold form-submit" type="submit">
             Request my free lesson <ArrowRight size={18} />
           </button>

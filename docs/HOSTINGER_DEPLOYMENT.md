@@ -11,10 +11,12 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 - Book-emblem favicon cache-bust: August 11, 2026
 - Critical-path and high-contrast favicon optimization: August 11, 2026
 - Mobile-first navigation and enrollment redesign: August 12, 2026
+- Managed teachers, dashboard feedback, short enrollment form, and brand palette update: August 13, 2026
 - Git branch: `codex/laravel-filament`
 - Domain: `alrabiyaacademy.com`
 - Admin: `https://alrabiyaacademy.com/admin`
 - Settings API: `https://alrabiyaacademy.com/api/site-settings`
+- Teachers API: `https://alrabiyaacademy.com/api/teachers`
 - Hosting: Hostinger shared web hosting
 - Application: Laravel 12.65 with Filament 5.7
 - Production PHP: PHP 8.3 for web requests; PHP 8.2 for SSH/CLI commands
@@ -23,6 +25,7 @@ It deliberately excludes passwords, private SSH identifiers, and database creden
 - Queue worker: none; `QUEUE_CONNECTION=sync`
 - Verified final archive checksum (SHA-256): `ef2c7fa4f74187ba2a342912549d8fe5fee1fbbf5444a160cfa4cd79a5ac0587`
 - Verified performance-release archive checksum (SHA-256): `b03f497e224b722f2e58f0a517c2accd75c2fad0e0860655eecaee4e06870100`
+- Verified managed-teachers release archive checksum (SHA-256): `bb1e568ab9ff4085677f27547bd35b54836794346807606f8c328e2b36527f1f`
 
 The initial Hostinger placeholder site was copied to:
 
@@ -59,11 +62,16 @@ The frontend is compiled locally into static HTML, CSS, JavaScript, fonts, and i
 - `/api/enroll` validates and stores student enrollment submissions.
 - `/api/reviews` validates and stores teacher reviews for moderation.
 - `/api/site-settings` exposes only safe public contact and social values.
+- `/api/teachers` exposes active teacher profiles and approved feedback.
+- `/teachers/{slug}` and `/ar/teachers/{slug}` are rendered by Laravel so dashboard updates appear without rebuilding the frontend.
 - `/admin` provides the authenticated Filament dashboard.
 - MySQL stores users, sessions, cache entries, submissions, reviews, and site settings.
+- MySQL also stores bilingual teacher profiles, display order, visibility, uploaded portrait paths, and approved feedback relationships.
 - Email is synchronous, so no cron job, Redis server, or queue worker is required.
 
 Apache first reads the root `.htaccess`. The homepage and prebuilt clean page routes are rewritten directly to their static HTML files, and real assets under Laravel's `public` directory are also served directly. Requests for `/api`, `/admin`, Livewire, and non-static fallbacks are routed through `public/index.php`. This keeps normal page views out of PHP and prevents unnecessary Laravel sessions while private Laravel files and dotfiles remain inaccessible from the web.
+
+Teacher profile paths are an intentional exception to static delivery: the root rewrite sends every English and Arabic teacher URL to Laravel before checking for exported HTML. This prevents stale generated teacher pages from bypassing Filament edits or continuing to show a hidden/deleted teacher.
 
 ## Performance and cache policy
 
@@ -170,10 +178,40 @@ php artisan make:filament-user
 
 The dashboard contains:
 
-- Enrollment leads, including contact data, program, status, consent time, and source metadata
-- Teacher reviews with moderation status
+- Enrollment leads centered on the public form's three fields: name, learner age, and WhatsApp number
+- Teachers with bilingual profile content, portrait upload/editing, website visibility, display order, and deletion
+- Feedback with teacher assignment, reviewer details, star rating, moderation status, manual add/edit, and deletion
 - Site settings for public email, notification recipient, WhatsApp number/message, and social links
 - Summary counts for recent submissions
+
+## Teacher and feedback management
+
+Open **Teachers** in Filament to add, edit, hide, reorder, or delete a teacher. A portrait-oriented image works best; Filament accepts JPG, PNG, and WebP files up to 4 MB and stores them in:
+
+```text
+storage/app/public/teachers/
+```
+
+The public path `public/storage` must point to `storage/app/public`. Hostinger currently disables PHP's `exec()` function, so `php artisan storage:link` cannot create the link on this account. Create it directly over SSH if it is ever missing:
+
+```bash
+ln -s /home/<hostinger-user>/domains/alrabiyaacademy.com/public_html/storage/app/public \
+  /home/<hostinger-user>/domains/alrabiyaacademy.com/public_html/public/storage
+```
+
+Open **Feedback** to approve website submissions or add feedback on the client's behalf. Only records with status **Approved** appear on the public teacher profile. Pending, rejected, and spam records remain private. Teacher and feedback saves invalidate the one-minute public teacher cache automatically.
+
+The deployment created an immediate rollback copy before this feature release at:
+
+```text
+domains/alrabiyaacademy.com/backups/public_html-before-teachers-20260813-1351/
+```
+
+The reproducible release archive is retained outside the web root at:
+
+```text
+domains/alrabiyaacademy.com/alarabiya-deploy-20260813-managed-teachers.zip
+```
 
 ## Enable production email
 
@@ -240,6 +278,7 @@ cp "$domain_root/public_html/.env" "$release/.env"
 chmod 600 "$release/.env"
 php artisan optimize:clear
 php artisan migrate --force
+php artisan storage:link
 ```
 
 Before switching, back up the current web root:
@@ -259,6 +298,8 @@ chmod 600 .env
 chmod -R ug+rwX storage bootstrap/cache
 php artisan optimize
 ```
+
+If `php artisan storage:link` reports `Call to undefined function Illuminate\Filesystem\exec()` on Hostinger, use the direct `ln -s` command documented in **Teacher and feedback management** instead.
 
 Do not run `php artisan key:generate` during a normal update. Replacing `APP_KEY` would invalidate sessions and make previously encrypted application data unreadable.
 
