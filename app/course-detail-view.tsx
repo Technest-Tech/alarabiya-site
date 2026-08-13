@@ -13,7 +13,8 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 import { SiteFooter, SiteHeader } from "./site-chrome";
-import { getTeacher, type CourseProfile, type Locale } from "./site-data";
+import ManagedTeacherGrid from "./managed-teacher-grid";
+import { type CourseProfile, type Locale } from "./site-data";
 
 const icons = {
   book: BookOpen,
@@ -26,10 +27,8 @@ export default function CourseDetailView({ course, locale }: { course: CoursePro
   const ar = locale === "ar";
   const Arrow = ar ? ArrowLeft : ArrowRight;
   const home = ar ? "/ar/" : "/";
-  const teacherBase = ar ? "/ar/teachers" : "/teachers";
   const alternateHref = ar ? `/courses/${course.slug}/` : `/ar/courses/${course.slug}/`;
   const CourseIcon = icons[course.icon];
-  const courseTeachers = course.teacherSlugs.map(getTeacher).filter(Boolean);
 
   return (
     <main className={ar ? "rtl-site" : ""} dir={ar ? "rtl" : "ltr"} lang={locale}>
@@ -109,14 +108,7 @@ export default function CourseDetailView({ course, locale }: { course: CoursePro
           <h2>{ar ? <>قابل فريق <em>معلمينا</em></> : <>Meet our <em>teaching team</em></>}</h2>
           <p>{ar ? "يتم تأكيد المعلم الأنسب لهذا المسار بعد تقييم المستوى والأهداف والمواعيد المتاحة." : "The best tutor match for this program is confirmed after reviewing the learner's level, goals, and availability."}</p>
         </div>
-        <div className="course-teacher-grid">
-          {courseTeachers.map((teacher) => teacher && (
-            <article key={teacher.slug}>
-              <img src={teacher.image} alt={teacher.name[locale]} width="960" height="1200" loading="lazy" />
-              <div><small>{teacher.role[locale]}</small><h3>{teacher.name[locale]}</h3><p>{teacher.shortBio[locale]}</p><a href={`${teacherBase}/${teacher.slug}/`}>{ar ? "عرض الملف التعريفي" : "View teacher profile"}<Arrow /></a></div>
-            </article>
-          ))}
-        </div>
+        <ManagedTeacherGrid locale={locale} courseSlug={course.slug} />
       </section>
 
       <section className="course-faq-section">

@@ -201,6 +201,8 @@ ln -s /home/<hostinger-user>/domains/alrabiyaacademy.com/public_html/storage/app
 
 Open **Feedback** to approve website submissions or add feedback on the client's behalf. Only records with status **Approved** appear on the public teacher profile. Pending, rejected, and spam records remain private. Teacher and feedback saves invalidate the one-minute public teacher cache automatically.
 
+No placeholder teacher profiles are shipped or used as a fallback. When the dashboard has no active teachers, the public sections show a neutral coming-soon message. Every teacher card shown on the site must come from an active record created by the academy in **Teachers**.
+
 The deployment created an immediate rollback copy before this feature release at:
 
 ```text

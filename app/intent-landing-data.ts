@@ -58,7 +58,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Progress plan", text: "Leave each class with focused practice and a clear target for the next lesson." },
     ],
     idealFor: ["Complete Quran beginners", "Children beginning Qaida", "Adults returning to Quran", "Tajweed and Hifz learners"],
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
     teacherHeading: "Meet Quran tutors from our teaching team",
     faqs: [
       { question: "Can I join if I cannot read Arabic?", answer: "Yes. Your plan can begin with the first Arabic letters and joining sounds before moving into Quran words and verses." },
@@ -102,7 +102,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Clear next goals", text: "The lesson plan adapts as reading accuracy, confidence, and independence grow." },
     ],
     idealFor: ["Children starting Qaida", "Kids who read slowly", "Young Tajweed learners", "Families seeking one-to-one support"],
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
     teacherHeading: "Find a tutor suited to your child",
     faqs: [
       { question: "Is the program suitable for a complete beginner?", answer: "Yes. A child can begin from the first Arabic letter and progress step by step." },
@@ -146,7 +146,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Sustainable practice", text: "Use clear weekly targets that fit around your responsibilities and available study time." },
     ],
     idealFor: ["Complete adult beginners", "Adults returning after a break", "Busy learners needing flexibility", "Tajweed and Hifz students"],
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
     teacherHeading: "Choose the right tutor for your goals",
     faqs: [
       { question: "Am I too old to begin learning Quran?", answer: "No. Adult lessons begin at your actual level and move at a pace that supports steady, comfortable progress." },
@@ -167,7 +167,7 @@ export const intentLandings: IntentLanding[] = [
     title: "Learn Quran online with a female teacher",
     tagline:
       "Request a patient female tutor for private Quran reading, Tajweed, or memorization lessons matched to the learner’s level and schedule.",
-    primaryCourseHref: "/teachers/roqaya-badr/",
+    primaryCourseHref: "/online-quran-classes/",
     primaryCourseLabel: "View a female tutor profile",
     programValue: "Female Quran Teacher Online",
     facts: [
@@ -190,7 +190,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Learn consistently", text: "Continue with live correction, manageable goals, and a schedule agreed with the academy." },
     ],
     idealFor: ["Girls learning Quran", "Adult women", "Families preferring a female tutor", "Learners seeking private one-to-one support"],
-    teacherSlugs: ["roqaya-badr"],
+    teacherSlugs: [],
     teacherHeading: "Meet a female tutor from our team",
     faqs: [
       { question: "Can I guarantee a particular teacher before the trial?", answer: "Tutor matching depends on subject, level, and schedule. The academy confirms the available female tutor before your assessment." },
@@ -234,7 +234,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Reading and grammar", text: "Build understanding with meaningful texts and grammar patterns you can use immediately." },
     ],
     idealFor: ["Complete Arabic beginners", "Heritage-language children", "Adults learning conversation", "Learners seeking Modern Standard Arabic"],
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
     teacherHeading: "Meet Arabic tutors from our teaching team",
     faqs: [
       { question: "Which type of Arabic do you teach?", answer: "The core program teaches Modern Standard Arabic, with conversational support adapted to the learner’s goals." },
@@ -278,7 +278,7 @@ export const intentLandings: IntentLanding[] = [
       { title: "Connected progress", text: "Coordinate practice across both subjects and change the balance as the learner develops." },
     ],
     idealFor: ["Families wanting one learning plan", "Kids studying Arabic and Quran", "Adults seeking Quranic understanding", "Learners with different levels in each subject"],
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
     teacherHeading: "Find tutors for your combined learning goals",
     faqs: [
       { question: "Do Arabic and Quran have to start at the same level?", answer: "No. The assessment checks each subject independently and builds the plan around both starting points." },

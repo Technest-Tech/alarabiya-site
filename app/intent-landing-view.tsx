@@ -11,7 +11,7 @@ import {
   UserRoundCheck,
 } from "lucide-react";
 import { SiteFooter, SiteHeader } from "./site-chrome";
-import { getTeacher } from "./site-data";
+import ManagedTeacherGrid from "./managed-teacher-grid";
 import type { IntentLanding } from "./intent-landing-data";
 
 const landingIcons = {
@@ -47,7 +47,6 @@ const studyPaths = [
 
 export default function IntentLandingView({ landing }: { landing: IntentLanding }) {
   const LandingIcon = landingIcons[landing.icon];
-  const landingTeachers = landing.teacherSlugs.map(getTeacher).filter(Boolean);
   const schema = {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -186,19 +185,7 @@ export default function IntentLandingView({ landing }: { landing: IntentLanding 
           <h2>{landing.teacherHeading}</h2>
           <p>The academy confirms the most suitable available tutor after reviewing the learner’s level, goals, preferences, and lesson times.</p>
         </div>
-        <div className="course-teacher-grid">
-          {landingTeachers.map((teacher) => teacher && (
-            <article key={teacher.slug}>
-              <img src={teacher.image} alt={teacher.name.en} width="960" height="1200" loading="lazy" />
-              <div>
-                <small>{teacher.role.en}</small>
-                <h3>{teacher.name.en}</h3>
-                <p>{teacher.shortBio.en}</p>
-                <a href={`/teachers/${teacher.slug}/`}>View teacher profile <ArrowRight /></a>
-              </div>
-            </article>
-          ))}
-        </div>
+        <ManagedTeacherGrid locale="en" />
       </section>
 
       <section className="enrollment-section intent-enrollment" id="intent-enroll">

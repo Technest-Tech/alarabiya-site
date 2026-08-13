@@ -36,7 +36,7 @@ class TeacherForm
                         ->imageEditorAspectRatios(['4:5', '1:1'])
                         ->maxSize(4096),
                     TextInput::make('slug')
-                        ->helperText('Used in the profile URL, for example: mohamed-samy')
+                        ->helperText('Used in the profile URL, for example: teacher-name')
                         ->alphaDash()
                         ->unique(ignoreRecord: true)
                         ->required()

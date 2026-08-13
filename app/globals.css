@@ -6783,6 +6783,88 @@ footer {
   }
 }
 
+.teacher-loading-state,
+.teacher-empty-state {
+  grid-column: 1 / -1;
+  width: min(680px, 100%);
+  min-height: 190px;
+  margin: 0 auto;
+  padding: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(247, 183, 24, 0.3);
+  border-radius: 25px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.teacher-loading-state {
+  gap: 9px;
+}
+
+.teacher-loading-state span {
+  width: 10px;
+  height: 10px;
+  background: var(--gold);
+  border-radius: 50%;
+  animation: teacher-loading 900ms ease-in-out infinite alternate;
+}
+
+.teacher-loading-state span:nth-child(2) { animation-delay: 150ms; }
+.teacher-loading-state span:nth-child(3) { animation-delay: 300ms; }
+
+.teacher-empty-state {
+  flex-direction: column;
+}
+
+.teacher-empty-state > span {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  color: var(--blue-deep);
+  background: var(--gold);
+  border-radius: 16px;
+}
+
+.teacher-empty-state svg {
+  width: 25px;
+  height: 25px;
+}
+
+.teacher-empty-state h3 {
+  margin: 18px 0 8px;
+  color: white;
+  font-size: clamp(20px, 3vw, 27px);
+}
+
+.teacher-empty-state p {
+  max-width: 560px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.7;
+}
+
+.course-teachers-section > .teacher-loading-state.compact,
+.course-teachers-section > .teacher-empty-state.compact {
+  min-height: 130px;
+  color: var(--ink);
+  background: white;
+  border-color: var(--line);
+  box-shadow: 0 16px 42px rgba(6, 45, 86, 0.08);
+}
+
+.course-teachers-section > .teacher-empty-state.compact p {
+  color: var(--muted);
+}
+
+@keyframes teacher-loading {
+  to { opacity: 0.3; transform: translateY(-7px); }
+}
+
 /* Tutor marketplace profile: information-first layout inspired by leading tutor directories. */
 .marketplace-profile-page {
   padding: 38px clamp(20px, 5vw, 72px) 105px;

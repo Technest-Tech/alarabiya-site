@@ -2,13 +2,14 @@
 
 import { ArrowLeft, ArrowRight, BookOpen, Check, Languages, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
-import { teachers as fallbackTeachers, type Locale, type TeacherProfile } from "./site-data";
+import { type Locale, type TeacherProfile } from "./site-data";
 
 export default function TeacherCards({ locale }: { locale: Locale }) {
   const ar = locale === "ar";
   const Arrow = ar ? ArrowLeft : ArrowRight;
   const base = ar ? "/ar/teachers" : "/teachers";
-  const [teachers, setTeachers] = useState<TeacherProfile[]>(fallbackTeachers);
+  const [teachers, setTeachers] = useState<TeacherProfile[]>([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -18,9 +19,10 @@ export default function TeacherCards({ locale }: { locale: Locale }) {
       .then((profiles: TeacherProfile[]) => setTeachers(profiles))
       .catch((error: unknown) => {
         if (!(error instanceof DOMException && error.name === "AbortError")) {
-          console.warn("Managed teachers are temporarily unavailable; showing the published fallback profiles.");
+          console.warn("Managed teachers are temporarily unavailable.");
         }
-      });
+      })
+      .finally(() => setLoaded(true));
 
     return () => controller.abort();
   }, []);
@@ -34,6 +36,7 @@ export default function TeacherCards({ locale }: { locale: Locale }) {
         <p>{ar ? "تعرّف إلى فريقنا، ثم قابل المعلم أو المعلمة الأنسب لمستواك وأهدافك في حصة تقييم مجانية." : "Meet our team, then find the tutor best matched to your level and goals in a free assessment lesson."}</p>
       </div>
       <div className="teacher-profile-grid">
+        {!loaded && <div className="teacher-loading-state" aria-label={ar ? "جارٍ تحميل المعلمين" : "Loading teachers"}><span></span><span></span><span></span></div>}
         {teachers.map((teacher, index) => (
           <article className="teacher-profile-card" key={teacher.slug}>
             <a className="teacher-card-photo" href={`${base}/${teacher.slug}/`} aria-label={`${ar ? "عرض ملف" : "View profile for"} ${teacher.name[locale]}`}>
@@ -56,6 +59,13 @@ export default function TeacherCards({ locale }: { locale: Locale }) {
             </div>
           </article>
         ))}
+        {loaded && teachers.length === 0 && (
+          <div className="teacher-empty-state">
+            <span><Sparkles /></span>
+            <h3>{ar ? "قريباً: ملفات معلمي الأكاديمية" : "Academy teacher profiles are coming soon"}</h3>
+            <p>{ar ? "ستظهر هنا فقط ملفات المعلمين الحقيقيين التي ينشرها فريق الأكاديمية من لوحة التحكم." : "Only real teacher profiles published by the academy team in the dashboard will appear here."}</p>
+          </div>
+        )}
       </div>
       <p className="profile-preview-note">
         {ar ? "يتم تأكيد المعلم النهائي والبرنامج المناسب بعد حصة التقييم المجانية حسب المستوى والأهداف والمواعيد المتاحة." : "Your final tutor and learning path are confirmed after the free assessment based on level, goals, and availability."}

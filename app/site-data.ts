@@ -42,7 +42,7 @@ export type CourseProfile = {
   teacherSlugs: string[];
 };
 
-export const teachers: TeacherProfile[] = [
+const retiredPlaceholderTeachers: TeacherProfile[] = [
   {
     slug: "mohamed-samy",
     image: "/images/teacher-mohamed-samy.webp",
@@ -282,6 +282,10 @@ export const teachers: TeacherProfile[] = [
   },
 ];
 
+// Public teacher displays must come exclusively from the Laravel dashboard API.
+export const teachers: TeacherProfile[] = [];
+void retiredPlaceholderTeachers;
+
 export const courses: CourseProfile[] = [
   {
     slug: "quran-reading",
@@ -324,7 +328,7 @@ export const courses: CourseProfile[] = [
       en: [{ question: "Can a complete beginner join?", answer: "Yes. The program can begin with the very first Arabic letter and progress step by step." }, { question: "Do I need to buy a book?", answer: "Your tutor recommends the right learning material after the free assessment." }],
       ar: [{ question: "هل يمكن للمبتدئ تماماً الانضمام؟", answer: "نعم، يمكن أن يبدأ البرنامج من أول حرف عربي ويتقدم خطوة بخطوة." }, { question: "هل أحتاج إلى شراء كتاب؟", answer: "يقترح المعلم المادة المناسبة بعد حصة التقييم المجانية." }],
     },
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
   },
   {
     slug: "tajweed-hifz",
@@ -357,7 +361,7 @@ export const courses: CourseProfile[] = [
       en: [{ question: "Can I study Tajweed without memorizing?", answer: "Yes. Your plan can focus entirely on recitation and Tajweed application." }, { question: "How much will I memorize each week?", answer: "The amount is set after assessment and adjusted to your time, accuracy, and revision needs." }],
       ar: [{ question: "هل يمكنني دراسة التجويد دون الحفظ؟", answer: "نعم، يمكن أن تركز خطتك بالكامل على التلاوة وتطبيق التجويد." }, { question: "كم سأحفظ كل أسبوع؟", answer: "تُحدد الكمية بعد التقييم وتتكيف مع وقتك ودقتك واحتياجك للمراجعة." }],
     },
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
   },
   {
     slug: "arabic-language",
@@ -390,7 +394,7 @@ export const courses: CourseProfile[] = [
       en: [{ question: "Which Arabic variety do you teach?", answer: "The core program builds Modern Standard Arabic, with conversational support adapted to learner goals." }, { question: "Will I speak from the beginning?", answer: "Yes. Even beginners use short, supported phrases from their first lessons." }],
       ar: [{ question: "أي نوع من العربية تدرسون؟", answer: "يبني البرنامج الأساسي العربية الفصحى مع دعم المحادثة وفق أهداف المتعلم." }, { question: "هل سأتحدث منذ البداية؟", answer: "نعم، يستخدم حتى المبتدئ عبارات قصيرة ومدعومة منذ الدروس الأولى." }],
     },
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
   },
   {
     slug: "islamic-studies",
@@ -423,7 +427,7 @@ export const courses: CourseProfile[] = [
       en: [{ question: "Is the program suitable for young children?", answer: "Yes. Younger learners use stories, visuals, questions, and short activities." }, { question: "Can parents request specific topics?", answer: "Yes. The tutor can include suitable family priorities within the learner’s plan." }],
       ar: [{ question: "هل البرنامج مناسب للأطفال الصغار؟", answer: "نعم، يستخدم المتعلمون الأصغر القصص والصور والأسئلة والأنشطة القصيرة." }, { question: "هل يمكن للوالدين طلب موضوعات محددة؟", answer: "نعم، يمكن للمعلم إدراج أولويات الأسرة المناسبة ضمن خطة المتعلم." }],
     },
-    teacherSlugs: ["mohamed-samy", "roqaya-badr", "mohamed-ebrahim"],
+    teacherSlugs: [],
   },
 ];
 

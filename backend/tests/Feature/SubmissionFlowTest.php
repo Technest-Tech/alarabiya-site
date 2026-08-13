@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Mail\NewEnrollmentSubmission;
 use App\Mail\NewReviewSubmission;
 use App\Models\EnrollmentSubmission;
+use App\Models\ReviewSubmission;
 use App\Models\SiteSetting;
 use App\Models\Teacher;
 use App\Models\User;
@@ -70,9 +71,10 @@ class SubmissionFlowTest extends TestCase
     {
         Mail::fake();
         SiteSetting::query()->create(SiteSetting::defaults());
+        $teacher = $this->createTeacher();
 
         $response = $this->post('/api/reviews', [
-            'teacher_slug' => 'mohamed-samy',
+            'teacher_slug' => $teacher->slug,
             'name' => 'Yusuf Ali',
             'rating' => 5,
             'review' => 'The lessons were clear, patient, and very helpful for my recitation.',
@@ -113,6 +115,16 @@ class SubmissionFlowTest extends TestCase
 
     public function test_public_teacher_api_exposes_only_active_managed_profiles_and_approved_reviews(): void
     {
+        $teacher = $this->createTeacher();
+        ReviewSubmission::query()->create([
+            'teacher_id' => $teacher->getKey(),
+            'teacher' => $teacher->slug,
+            'reviewer_name' => 'A real learner',
+            'rating' => 5,
+            'review' => 'A clear and patient lesson with useful feedback throughout.',
+            'locale' => 'en',
+            'status' => 'approved',
+        ]);
         $hiddenTeacher = Teacher::query()->create([
             'slug' => 'hidden-teacher',
             'name_en' => 'Hidden Teacher',
@@ -126,11 +138,11 @@ class SubmissionFlowTest extends TestCase
 
         $response = $this->getJson('/api/teachers');
 
-        $response->assertOk()->assertJsonFragment(['slug' => 'mohamed-samy']);
+        $response->assertOk()->assertJsonFragment(['slug' => $teacher->slug]);
         $response->assertJsonMissing(['slug' => $hiddenTeacher->slug]);
-        $this->assertSame('approved', Teacher::query()->where('slug', 'mohamed-samy')->firstOrFail()->approvedReviews()->firstOrFail()->status);
-        $this->get('/teachers/mohamed-samy')->assertOk()->assertSee('Mohamed Samy')->assertSee('Learner &amp; family feedback', false);
-        $this->get('/ar/teachers/mohamed-samy')->assertOk()->assertSee('محمد سامي')->assertSee('آراء الطلاب والأسر');
+        $this->assertSame('approved', $teacher->approvedReviews()->firstOrFail()->status);
+        $this->get("/teachers/{$teacher->slug}")->assertOk()->assertSee('Real Academy Teacher')->assertSee('Learner &amp; family feedback', false);
+        $this->get("/ar/teachers/{$teacher->slug}")->assertOk()->assertSee('معلم الأكاديمية الحقيقي')->assertSee('آراء الطلاب والأسر');
     }
 
     public function test_admin_requires_authentication(): void
@@ -142,14 +154,32 @@ class SubmissionFlowTest extends TestCase
     {
         $user = User::factory()->create();
         $settings = SiteSetting::query()->create(SiteSetting::defaults());
+        $teacher = $this->createTeacher();
 
         $this->actingAs($user)->get('/admin')->assertOk();
         $this->actingAs($user)->get('/admin/enrollment-submissions')->assertOk();
         $this->actingAs($user)->get('/admin/review-submissions')->assertOk();
         $this->actingAs($user)->get('/admin/teachers')->assertOk();
         $this->actingAs($user)->get('/admin/teachers/create')->assertOk();
-        $this->actingAs($user)->get('/admin/teachers/'.Teacher::query()->firstOrFail()->slug.'/edit')->assertOk();
+        $this->actingAs($user)->get('/admin/teachers/'.$teacher->slug.'/edit')->assertOk();
         $this->actingAs($user)->get('/admin/review-submissions/create')->assertOk();
         $this->actingAs($user)->get("/admin/site-settings/{$settings->getKey()}/edit")->assertOk();
+    }
+
+    private function createTeacher(): Teacher
+    {
+        return Teacher::query()->create([
+            'slug' => 'real-academy-teacher',
+            'name_en' => 'Real Academy Teacher',
+            'name_ar' => 'معلم الأكاديمية الحقيقي',
+            'role_en' => 'Quran and Arabic Teacher',
+            'role_ar' => 'معلم القرآن واللغة العربية',
+            'short_bio_en' => 'A real teacher profile managed by the academy.',
+            'short_bio_ar' => 'ملف معلم حقيقي تديره الأكاديمية.',
+            'focus_en' => ['Quran reading'],
+            'focus_ar' => ['قراءة القرآن'],
+            'course_slugs' => ['quran-reading'],
+            'is_active' => true,
+        ]);
     }
 }

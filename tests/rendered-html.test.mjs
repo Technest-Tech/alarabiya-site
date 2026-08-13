@@ -36,9 +36,9 @@ test("production homepage contains the academy conversion journey", async () => 
   assert.match(html, /Arabic Language/);
   assert.match(html, /Islamic Studies/);
   assert.match(html, /Meet some of our/);
-  assert.match(html, /\/teachers\/mohamed-samy\//);
   assert.match(html, /\/courses\/quran-reading\//);
-  assert.match(html, /\/images\/teacher-mohamed-samy\.webp/);
+  assert.doesNotMatch(html, /Mohamed Samy|Roqaya Badr|Mohamed Ebrahim|teacher-mohamed|teacher-ruqaya/);
+  assert.match(html, /Loading teachers/);
   assert.match(html, /Test your knowledge/);
   assert.match(html, /Who would you like to assess/);
   assert.match(html, /Continue/);
@@ -66,8 +66,8 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(html, /لمن تريد تحديد المستوى/);
   assert.match(html, /متابعة/);
   assert.match(html, /تعرّف إلى بعض/);
-  assert.match(html, /\/ar\/teachers\/mohamed-samy\//);
   assert.match(html, /\/ar\/courses\/quran-reading\//);
+  assert.doesNotMatch(html, /محمد سامي|رقيه بدر|محمد إبراهيم|teacher-mohamed|teacher-ruqaya/);
   assert.match(html, /action="\/api\/enroll"/);
   assert.match(html, /href="\/"/);
   assert.match(html, /\/images\/course-quran-reading\.webp/);
@@ -77,31 +77,20 @@ test("Arabic homepage is localized, RTL, and linked to English", async () => {
   assert.match(css, /html,\s*body\s*\{\s*overflow-x: clip/);
 });
 
-test("course and teacher detail pages are generated in both languages", async () => {
-  const [courseEn, courseAr, teacherEn, teacherAr] = await Promise.all([
+test("course pages use dashboard-managed teacher slots and placeholder profiles are not generated", async () => {
+  const [courseEn, courseAr] = await Promise.all([
     readFile(new URL("dist/client/courses/quran-reading/index.html", root), "utf8"),
     readFile(new URL("dist/client/ar/courses/quran-reading/index.html", root), "utf8"),
-    readFile(new URL("dist/client/teachers/mohamed-samy/index.html", root), "utf8"),
-    readFile(new URL("dist/client/ar/teachers/mohamed-samy/index.html", root), "utf8"),
   ]);
 
   assert.match(courseEn, /A clear path to/);
   assert.match(courseEn, /Inside the program/);
   assert.match(courseAr, /مسار واضح نحو/);
   assert.match(courseAr, /داخل البرنامج/);
-  assert.match(teacherEn, /Submit a review/);
-  assert.match(teacherEn, /action="\/api\/reviews"/);
-  assert.match(teacherEn, /type="radio"[^>]*name="rating" value="5"/);
-  assert.match(teacherEn, /name="review"/);
-  assert.doesNotMatch(teacherEn, /name="email"|name="relationship"|name="consent"/);
-  assert.match(teacherEn, /Mohamed Samy/);
-  assert.match(teacherEn, /Lesson standards/);
-  assert.match(teacherEn, /Free personal assessment/);
-  assert.doesNotMatch(teacherEn, /Demo profile|Demo tutor|Demo review|demo reviews|not verified testimonials/);
-  assert.match(teacherAr, /أرسل تقييمك/);
-  assert.match(teacherAr, /محمد سامي/);
-  assert.doesNotMatch(teacherAr, /ملف تجريبي|تقييم تجريبي|تقييمات تجريبية|بيانات تجريبية/);
-  assert.match(teacherAr, /dir="rtl"/);
+  assert.match(courseEn, /Loading teachers/);
+  assert.match(courseAr, /جارٍ تحميل المعلمين/);
+  await assert.rejects(access(new URL("dist/client/teachers/mohamed-samy/index.html", root)));
+  await assert.rejects(access(new URL("dist/client/ar/teachers/mohamed-samy/index.html", root)));
 });
 
 test("buyer-focused Quran, Arabic, and combined landing pages are generated", async () => {
@@ -162,9 +151,6 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/images/course-tajweed-hifz.webp", root)),
     access(new URL("backend/public/images/course-arabic-language.webp", root)),
     access(new URL("backend/public/images/course-islamic-studies.webp", root)),
-    access(new URL("backend/public/images/teacher-mohamed-samy.webp", root)),
-    access(new URL("backend/public/images/teacher-ruqaya-badr.webp", root)),
-    access(new URL("backend/public/images/teacher-mohamed-ebrahim.webp", root)),
     access(new URL("backend/public/favicon.png", root)),
     access(new URL("backend/public/favicon.ico", root)),
     access(new URL("backend/public/favicon-16x16.png", root)),
@@ -188,6 +174,10 @@ test("Hostinger build contains the Laravel entrypoint and static public files", 
     access(new URL("backend/public/privacy/index.html", root)),
     access(new URL("backend/public/terms/index.html", root)),
   ]);
+
+  await assert.rejects(access(new URL("backend/public/images/teacher-mohamed-samy.webp", root)));
+  await assert.rejects(access(new URL("backend/public/images/teacher-ruqaya-badr.webp", root)));
+  await assert.rejects(access(new URL("backend/public/images/teacher-mohamed-ebrahim.webp", root)));
 
   const rootHtaccess = await readFile(new URL("backend/.htaccess", root), "utf8");
   const preparedHome = await readFile(new URL("backend/public/site/index.html", root), "utf8");
